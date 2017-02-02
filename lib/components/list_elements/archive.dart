@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ToDo extends StatefulWidget {
+class Archive extends StatefulWidget {
   var toDo;
   var toggleToDo;
   var leftSwipe;
@@ -8,21 +8,21 @@ class ToDo extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
-  ToDo(this.toDo, this.toggleToDo, this.leftSwipe,
+  Archive(this.toDo, this.toggleToDo, this.leftSwipe,
       this.undoLeftSwipe, this.rightSwipe, this.undoRightSwipe);
 
   @override
-  State createState() => new ToDoState();
+  State createState() => new ArchiveState();
 }
 
-class ToDoState extends State<ToDo> {
+class ArchiveState extends State<Archive> {
   void _leftSwipe() {
     config.leftSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
             backgroundColor: Colors.grey[400],
             duration: new Duration(seconds: 2),
-            content: new Text('ToDo archived'),
+            content: new Text('ToDo restored'),
             action: new SnackBarAction(
               label: 'UNDO',
               onPressed: () {
@@ -63,9 +63,9 @@ class ToDoState extends State<ToDo> {
         ),
       ),
       secondaryBackground: new Container(
-        decoration: new BoxDecoration(backgroundColor: Colors.blue[500]),
+        decoration: new BoxDecoration(backgroundColor: Colors.green[500]),
         child: new ListItem(
-          trailing: new Icon(Icons.archive, size: 40.0),
+          trailing: new Icon(Icons.unarchive, size: 40.0),
         ),
       ),
       child: new ListItem(
@@ -74,13 +74,10 @@ class ToDoState extends State<ToDo> {
             icon: new Icon(config.toDo['done']
                 ? Icons.check_box
                 : Icons.check_box_outline_blank),
-            onPressed: () => config.toggleToDo(config.toDo)
+            onPressed: () {}
         ),
         title: new Text(config.toDo['title']),
         subtitle: new Text(config.toDo['subtitle']),
-        onTap: () {
-          // config.toggleToDo(config.toDo);
-        },
       ),
       onDismissed: (direction) {
         if (direction == DismissDirection.startToEnd)

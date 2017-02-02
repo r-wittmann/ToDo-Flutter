@@ -4,7 +4,7 @@ import 'package:ToDo/components/todo_app_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ToDoAppScaffold extends StatefulWidget {
-  String appBarTitle;
+  int indicator;
   List toDoList;
 
   var toggleDone;
@@ -19,7 +19,7 @@ class ToDoAppScaffold extends StatefulWidget {
   var changeColor;
 
   ToDoAppScaffold(
-      this.appBarTitle,
+      this.indicator,
       this.toDoList,
       this.toggleDone,
       this.leftSwipe,
@@ -36,34 +36,52 @@ class ToDoAppScaffold extends StatefulWidget {
 }
 
 class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
+  Widget _getAppTitle() {
+    String title;
+    switch (config.indicator) {
+      case 0:
+        title = 'ToDo List';
+        break;
+      case 1:
+        title = 'Archive';
+        break;
+      default:
+        title = 'Trash';
+        break;
+    }
+    return new Text(title);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      drawer: new ToDoAppDrawer(config.color, config.brightness,
-          config.changeTheme, config.changeColor),
-      appBar: new AppBar(
-        elevation: 2,
-        title: new Text(config.appBarTitle),
-        actions: [
-          new IconButton(
-              icon: new Icon(Icons.create),
-              onPressed: () {
+        drawer: new ToDoAppDrawer(config.indicator, config.color, config.brightness,
+            config.changeTheme, config.changeColor),
+        appBar: new AppBar(
+          elevation: 2,
+          title: _getAppTitle(),
+          actions: [
+            config.indicator == 0
+                ? new IconButton(
+                    icon: new Icon(Icons.create),
+                    onPressed: () {
 //                Navigator.push(
 //                  context,
 //                  new MaterialPageRoute(builder: (BuildContext context) {
 //                    return new ToDoAppCreate(config.updateToDo);
 //                  }),
 //                );
-              }),
-        ],
-      ),
-      body: new ToDoAppBody(
-              config.toDoList,
-              config.toggleDone,
-              config.leftSwipe,
-              config.undoLeftSwipe,
-              config.rightSwipe,
-              config.undoRightSwipe)
-    );
+                    })
+                : new Container(),
+          ],
+        ),
+        body: new ToDoAppBody(
+            config.indicator,
+            config.toDoList,
+            config.toggleDone,
+            config.leftSwipe,
+            config.undoLeftSwipe,
+            config.rightSwipe,
+            config.undoRightSwipe));
   }
 }

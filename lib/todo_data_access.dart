@@ -18,9 +18,9 @@ class ToDoDataAccess {
   Future<Null> _loadToDoFile() async {
     String dir = (await PathProvider.getApplicationDocumentsDirectory()).path;
     _toDoFile = new File('$dir/todos.txt');
-    _toDoFile.delete();
+    // _toDoFile.delete();
     if (!await _toDoFile.exists()) {
-      // _toDoFile.create();
+      _toDoFile.create();
       await _toDoFile.writeAsString(JSON.encode({
         'toDos': [
           {

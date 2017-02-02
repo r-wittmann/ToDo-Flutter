@@ -2,6 +2,7 @@ import 'package:ToDo/components/list_elements/parent_element.dart';
 import 'package:flutter/material.dart';
 
 class ToDoAppBody extends StatefulWidget {
+  int indicator;
   List toDoList;
 
   var toggleDone;
@@ -10,8 +11,7 @@ class ToDoAppBody extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
-
-  ToDoAppBody(this.toDoList, this.toggleDone, this.leftSwipe,
+  ToDoAppBody(this.indicator, this.toDoList, this.toggleDone, this.leftSwipe,
       this.undoLeftSwipe, this.rightSwipe, this.undoRightSwipe);
 
   @override
@@ -27,6 +27,7 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
 
     config.toDoList.forEach((toDo) {
       _listElements.add(new ParentElement(
+          config.indicator,
           toDo,
           config.toggleDone,
           config.leftSwipe,
