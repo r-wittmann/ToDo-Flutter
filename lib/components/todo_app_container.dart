@@ -13,6 +13,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   List _toDoList = [];
   List _doneList = [];
   List _archiveList = [];
+  List _trashList = [];
   var _undoObject;
   int _undoIndex;
 
@@ -28,110 +29,46 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     _toDoList = toDoObjects['toDos'];
     _doneList = toDoObjects['done'];
     _archiveList = toDoObjects['archive'];
+    _trashList = toDoObjects['trash'];
 
     setState(() {
       _toDoList;
       _doneList;
       _archiveList;
+      _trashList;
     });
   }
 
-  void _doToDo(toDo) {
-    setState(() {
-      _toDoList.remove(toDo);
-      _doneList.add(toDo);
-    });
-    _dataAccess.saveToDos(
-        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList});
-  }
+//  void _doToDo(toDo) {
+//    setState(() {
+//      _toDoList.remove(toDo);
+//      _doneList.add(toDo);
+//    });
+//    _dataAccess.saveToDos(
+//        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList, 'trash': _trashList});
+//  }
+//
+//  void _undoDone(toDo) {
+//    setState(() {
+//      _doneList.remove(toDo);
+//      _toDoList.add(toDo);
+//    });
+//    _dataAccess.saveToDos(
+//        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList, 'trash': _trashList});
+//  }
 
-  void _undoDone(toDo) {
-    setState(() {
-      _doneList.remove(toDo);
-      _toDoList.add(toDo);
-    });
-    _dataAccess.saveToDos(
-        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList});
-  }
-
-  void _archiveToDo(toDo, bool undo) {
-    if (!undo) {
-      setState(() {
-        _undoObject = toDo;
-        _undoIndex = _toDoList.indexOf(toDo);
-        _toDoList.remove(toDo);
-        _archiveList.add(toDo);
-      });
-    } else {
-      setState(() {
-        _toDoList.remove(_undoObject);
-        _archiveList.insert(_undoIndex, _undoObject);
-      });
-    }
-    _dataAccess.saveToDos(
-        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList});
-  }
-
-  void _archiveDone(toDo, bool undo) {
-    if (!undo) {
-      setState(() {
-        _undoObject = toDo;
-        _undoIndex = _doneList.indexOf(toDo);
-        _doneList.remove(toDo);
-        _archiveList.add(toDo);
-      });
-    } else {
-      setState(() {
-        _doneList.remove(_undoObject);
-        _archiveList.insert(_undoIndex, _undoObject);
-      });
-    }
-    _dataAccess.saveToDos(
-        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList});
-  }
-
-  void _unarchiveToDo(toDo, bool undo) {
-    if(!undo) {
-      setState(() {
-        _undoObject = toDo;
-        _undoIndex = _archiveList.indexOf(toDo);
-        _archiveList.remove(toDo);
-        _toDoList.add(toDo);
-      });
-    } else {
-      setState(() {
-        _archiveList.remove(_undoObject);
-        _toDoList.insert(_undoIndex, _undoObject);
-      });
-    }
-    _dataAccess.saveToDos(
-        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList});
-  }
-
-  void _unarchiveDone(toDo, bool undo) {
-    if(!undo) {
-      setState(() {
-        _undoObject = toDo;
-        _undoIndex = _archiveList.indexOf(toDo);
-        _archiveList.remove(toDo);
-        _doneList.add(toDo);
-      });
-    } else {
-      setState(() {
-        _archiveList.remove(_undoObject);
-        _doneList.insert(_undoIndex, _undoObject);
-      });
-    }
-    _dataAccess.saveToDos(
-        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList});
-  }
-
+  void _toggleDone(toDo) {}
+  void _archiveToDo(toDo, bool undo) {}
+  void _unarchiveToDo(toDo, bool undo) {}
   void _deleteToDo(toDo) {}
   void _undeleteToDo(toDo) {}
-  void _deleteDone(toDo) {}
-  void _undeleteDone(toDo) {}
   void _deleteArchive(toDo) {}
   void _undeleteArchive(toDo) {}
+
+  void _saveToDos() {
+    _dataAccess.saveToDos(
+        {'toDos': _toDoList, 'done': _doneList, 'archive': _archiveList, 'trash': _trashList});
+  }
 
 //  void _updateToDo(toDo) {
 //    _toDoList.forEach((value) {
@@ -276,26 +213,44 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         primaryIconTheme: new IconThemeData(color: Colors.white),
         iconTheme: new IconThemeData(color: Colors.white),
       ),
-      home: new ToDoAppScaffold(
-          _toDoList,
-          _doneList,
-          _archiveList,
-          _doToDo,
-          _undoDone,
-          _archiveToDo,
-          _unarchiveToDo,
-          _archiveDone,
-          _unarchiveDone,
-          _deleteToDo,
-          _undeleteToDo,
-          _deleteDone,
-          _undeleteDone,
-          _deleteArchive,
-          _undeleteArchive,
-          _color,
-          _brightness,
-          _changeTheme,
-          _changeColor),
+      routes: {
+        '/': (_) => new ToDoAppScaffold(
+            'ToDo List',
+            []..addAll(_toDoList)..addAll(_doneList),
+            _toggleDone,
+            _archiveToDo,
+            _unarchiveToDo,
+            _deleteToDo,
+            _undeleteToDo,
+            _color,
+            _brightness,
+            _changeTheme,
+            _changeColor),
+        '/archive': (_) => new ToDoAppScaffold(
+            'Archive',
+            _archiveList,
+            null,
+            _unarchiveToDo,
+            _archiveToDo,
+            _deleteArchive,
+            _undeleteArchive,
+            _color,
+            _brightness,
+            _changeTheme,
+            _changeColor),
+        '/trash': (_) => new ToDoAppScaffold(
+            'Trash',
+            _trashList,
+            null,
+            null,
+            null,
+            _undeleteToDo,
+            _deleteToDo,
+            _color,
+            _brightness,
+            _changeTheme,
+            _changeColor)
+      },
     );
   }
 }

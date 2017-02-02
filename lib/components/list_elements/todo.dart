@@ -16,13 +16,26 @@ class ToDo extends StatefulWidget {
 }
 
 class ToDoState extends State<ToDo> {
-  void _archiveItem() {
+  DismissDirection _dismissDirection = DismissDirection.horizontal;
+
+  @override
+  void initState() {
+    super.initState();
+    if (config.leftSwipe is Function && config.rightSwipe is! Function)
+      _dismissDirection = DismissDirection.endToStart;
+    else if(config.leftSwipe is! Function && config.rightSwipe is Function)
+      _dismissDirection = DismissDirection.startToEnd;
+    else
+      _dismissDirection = DismissDirection.horizontal;
+  }
+
+  void _leftSwipe() {
     config.leftSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
-            backgroundColor: Colors.grey[800],
+            backgroundColor: Colors.grey[400],
             duration: new Duration(seconds: 2),
-            content: new Text('Archived ToDo'),
+            content: new Text(''),
             action: new SnackBarAction(
               label: 'UNDO',
               onPressed: () {
@@ -32,12 +45,27 @@ class ToDoState extends State<ToDo> {
           ),
         );
   }
-
-  void _deleteItem() {}
+  void _rightSwipe() {
+    config.rightSwipe(config.toDo, false);
+    Scaffold.of(context).showSnackBar(
+      new SnackBar(
+        backgroundColor: Colors.grey[400],
+        duration: new Duration(seconds: 2),
+        content: new Text(''),
+        action: new SnackBarAction(
+          label: 'UNDO',
+          onPressed: () {
+            config.undoRightSwipe(config.toDo, true);
+          },
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return new Dismissable(
-      key: new ObjectKey({'toDo': config.toDo, 'id': config.toDo['id']}),
+      key: new ObjectKey({'toDo': config.toDo}),
+      direction: _dismissDirection,
       resizeDuration: new Duration(milliseconds: 500),
       background: new Container(
         decoration: new BoxDecoration(backgroundColor: Colors.red[400]),
@@ -61,10 +89,9 @@ class ToDoState extends State<ToDo> {
       ),
       onDismissed: (direction) {
         if (direction == DismissDirection.startToEnd)
-          print('delete');
-        // _deleteItem();
+          _rightSwipe();
         else
-          _archiveItem();
+          _leftSwipe();
       },
     );
   }

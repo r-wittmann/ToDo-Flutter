@@ -18,9 +18,9 @@ class ToDoDataAccess {
   Future<Null> _loadToDoFile() async {
     String dir = (await PathProvider.getApplicationDocumentsDirectory()).path;
     _toDoFile = new File('$dir/todos.txt');
-    //_toDoFile.delete();
+    _toDoFile.delete();
     if (!await _toDoFile.exists()) {
-      _toDoFile.create();
+      // _toDoFile.create();
       await _toDoFile.writeAsString(JSON.encode({
         'toDos': [
           {
@@ -28,40 +28,26 @@ class ToDoDataAccess {
             'title': 'Welcome to ToDo',
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description I',
+            'done': false,
           },
           {
             'id': 2,
             'title': 'Get to know ToDo',
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description II',
+            'done': false,
           },
           {
             'id': 3,
             'title': 'Start using ToDo',
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description III',
-          },
-          {
-            'id': 4,
-            'title': 'Welcome to ToDo II',
-            'subtitle': 'Tap here for more information',
-            'description': 'ToDo Description I',
-          },
-          {
-            'id': 5,
-            'title': 'Get to know ToDo II',
-            'subtitle': 'Tap here for more information',
-            'description': 'ToDo Description II',
-          },
-          {
-            'id': 6,
-            'title': 'Start using ToDo II',
-            'subtitle': 'Tap here for more information',
-            'description': 'ToDo Description III',
+            'done': false,
           }
         ],
         'done': [],
-        'archive': []
+        'archive': [],
+        'trash': []
       }));
     }
   }

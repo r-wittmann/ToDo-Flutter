@@ -23,6 +23,28 @@ class ToDoAppDrawer extends StatelessWidget {
                 backgroundColor: color),
           ),
           new DrawerItem(
+            icon: new Icon(Icons.check_box),
+            child: new Text('ToDo List',style: new TextStyle(fontWeight: FontWeight.bold)),
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/');
+            }
+          ),
+          new DrawerItem(
+            icon: new Icon(Icons.archive),
+            child: new Text('Archive'),
+              onPressed: () {
+                Navigator.popAndPushNamed(context, '/archive');
+              }
+          ),
+          new DrawerItem(
+            icon: new Icon(Icons.delete),
+            child: new Text('Trash'),
+              onPressed: () {
+                Navigator.popAndPushNamed(context, '/trash');
+              }
+          ),
+          new Divider(),
+          new DrawerItem(
               icon: new Icon(
                   brightness == Brightness.dark ? Icons.brightness_7 : Icons.brightness_5),
               child: new Text('Change Theme'),
@@ -44,8 +66,8 @@ class ToDoAppDrawer extends StatelessWidget {
             child: new Text('Use Deadlines (maybe)'),
           ),
           new DrawerItem(
-            icon: new Icon(Icons.delete_outline),
-            child: new Text('Delete ToDos in the List'),
+            icon: new Icon(Icons.delete_forever),
+            child: new Text('Empty Trash'),
           ),
         ],
       ),
