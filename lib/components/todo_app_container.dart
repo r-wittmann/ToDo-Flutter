@@ -41,12 +41,14 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
       _trashList;
     });
   }
+
   void _createToDo(Map<String, dynamic> toDo) {
     setState(() {
       _toDoList.add(toDo);
     });
     _saveToDos();
   }
+
   void _toggleDone(toDo) {
     if (!toDo['done']) {
       setState(() {
@@ -63,9 +65,10 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     }
     _saveToDos();
   }
+
   void _archiveToDo(toDo, bool undo) {
-    if(!undo) {
-      if(toDo['done']) {
+    if (!undo) {
+      if (toDo['done']) {
         setState(() {
           _archiveObject = toDo;
           _archiveIndex = _doneList.indexOf(toDo);
@@ -81,7 +84,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         });
       }
     } else {
-      if(_archiveObject['done']) {
+      if (_archiveObject['done']) {
         setState(() {
           _doneList.remove(_archiveObject);
           _archiveList.insert(_archiveIndex, _archiveObject);
@@ -95,9 +98,10 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     }
     _saveToDos();
   }
+
   void _unarchiveToDo(toDo, bool undo) {
-    if(!undo) {
-      if(toDo['done']) {
+    if (!undo) {
+      if (toDo['done']) {
         setState(() {
           _archiveObject = toDo;
           _archiveIndex = _archiveList.indexOf(toDo);
@@ -113,7 +117,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         });
       }
     } else {
-      if(_archiveObject['done']) {
+      if (_archiveObject['done']) {
         setState(() {
           _archiveList.remove(_archiveObject);
           _doneList.insert(_archiveIndex, _archiveObject);
@@ -127,9 +131,10 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     }
     _saveToDos();
   }
+
   void _deleteToDo(toDo, bool undo) {
-    if(!undo) {
-      if(toDo['done']) {
+    if (!undo) {
+      if (toDo['done']) {
         setState(() {
           _deleteObject = toDo;
           _deleteIndex = _doneList.indexOf(toDo);
@@ -145,7 +150,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         });
       }
     } else {
-      if(_deleteObject['done']) {
+      if (_deleteObject['done']) {
         setState(() {
           _doneList.remove(_deleteObject);
           _trashList.insert(_deleteIndex, _deleteObject);
@@ -159,9 +164,10 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     }
     _saveToDos();
   }
+
   void _undeleteToDo(toDo, bool undo) {
-    if(!undo) {
-      if(toDo['done']) {
+    if (!undo) {
+      if (toDo['done']) {
         setState(() {
           _deleteObject = toDo;
           _deleteIndex = _trashList.indexOf(toDo);
@@ -177,7 +183,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         });
       }
     } else {
-      if(_deleteObject['done']) {
+      if (_deleteObject['done']) {
         setState(() {
           _trashList.remove(_deleteObject);
           _doneList.insert(_deleteIndex, _deleteObject);
@@ -191,6 +197,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     }
     _saveToDos();
   }
+
   void _deleteArchive(toDo) {}
   void _undeleteArchive(toDo) {}
 
@@ -202,7 +209,6 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
       'trash': _trashList
     });
   }
-
 
   bool _useDarkTheme = true;
   Brightness _brightness = Brightness.dark;

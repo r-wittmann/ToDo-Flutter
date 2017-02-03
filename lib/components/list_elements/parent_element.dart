@@ -22,10 +22,10 @@ class ParentElement extends StatefulWidget {
 class ParentElementState extends State<ParentElement> {
   @override
   Widget build(BuildContext context) {
-    switch(config.indicator) {
+    switch (config.indicator) {
       case 0:
         return new ToDo(config.toDo, config.toggleToDo, config.leftSwipe,
-          config.undoLeftSwipe, config.rightSwipe, config.undoRightSwipe);
+            config.undoLeftSwipe, config.rightSwipe, config.undoRightSwipe);
         break;
       case 1:
         return new Archive(config.toDo, config.toggleToDo, config.leftSwipe,
@@ -35,8 +35,6 @@ class ParentElementState extends State<ParentElement> {
         return new Trash(config.toDo, config.toggleToDo, config.leftSwipe,
             config.undoLeftSwipe, config.rightSwipe, config.undoRightSwipe);
         break;
-
     }
-
   }
 }

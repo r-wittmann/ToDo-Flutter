@@ -33,7 +33,7 @@ class ToDoAppDrawer extends StatelessWidget {
           new Container(
             decoration: indicator == 1
                 ? new BoxDecoration(
-                backgroundColor: new Color.fromRGBO(125, 125, 125, 0.3))
+                    backgroundColor: new Color.fromRGBO(125, 125, 125, 0.3))
                 : null,
             child: new DrawerItem(
                 icon: new Icon(Icons.archive),
@@ -45,7 +45,7 @@ class ToDoAppDrawer extends StatelessWidget {
           new Container(
             decoration: indicator == 2
                 ? new BoxDecoration(
-                backgroundColor: new Color.fromRGBO(125, 125, 125, 0.3))
+                    backgroundColor: new Color.fromRGBO(125, 125, 125, 0.3))
                 : null,
             child: new DrawerItem(
                 icon: new Icon(Icons.delete),
