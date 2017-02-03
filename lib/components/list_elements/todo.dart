@@ -109,50 +109,51 @@ class ToDoState extends State<ToDo> {
       _theme = Theme.of(context);
     });
     return new LongPressDraggable(
-        key: new ObjectKey({'toDo': config.toDo}),
-        data: config.toDo,
-        feedback: new SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: new Card(
-            child: new ListItem(
-              dense: true,
-              leading: new IconButton(
-                icon: new Icon(
-                    config.toDo['done']
-                        ? Icons.check_box
-                        : Icons.check_box_outline_blank,
-                    color: config.toDo['done'] ? Colors.green[400] : null),
-                onPressed: () {},
-              ),
-              title: new Text(config.toDo['title']),
-              subtitle: new Text(config.toDo['subtitle']),
-              onTap: () {},
-            ),
-          ),
-        ),
-        childWhenDragging: new Card(
+      key: new ObjectKey({'toDo': config.toDo}),
+      data: config.toDo,
+      feedback: new SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: new Card(
           child: new ListItem(
-            title: new Text('blub'),
-          ),
-        ),
-        child: new ListItem(
-          dense: true,
-          leading: new IconButton(
+            dense: true,
+            leading: new IconButton(
               icon: new Icon(
                   config.toDo['done']
                       ? Icons.check_box
                       : Icons.check_box_outline_blank,
                   color: config.toDo['done'] ? Colors.green[400] : null),
-              onPressed: () => config.toggleToDo(config.toDo)),
-          title: new Text(config.toDo['title']),
-          subtitle: new Text(config.toDo['subtitle']),
-          onTap: () {},
+              onPressed: () {},
+            ),
+            title: new Text(config.toDo['title']),
+            subtitle: new Text(config.toDo['subtitle']),
+            onTap: () {},
+          ),
         ),
-        onDragStarted: () {
-          _onDragStart();
-        },
-        onDraggableCanceled: (o, v) {
-          _onDragCancel();
-        });
+      ),
+      childWhenDragging: new Card(
+        child: new ListItem(
+          title: new Text('blub'),
+        ),
+      ),
+      child: new ListItem(
+        dense: true,
+        leading: new IconButton(
+            icon: new Icon(
+                config.toDo['done']
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                color: config.toDo['done'] ? Colors.green[400] : null),
+            onPressed: () => config.toggleToDo(config.toDo)),
+        title: new Text(config.toDo['title']),
+        subtitle: new Text(config.toDo['subtitle']),
+        onTap: () {},
+      ),
+      onDragStarted: () {
+        _onDragStart();
+      },
+      onDraggableCanceled: (o, v) {
+        _onDragCancel();
+      },
+    );
   }
 }
