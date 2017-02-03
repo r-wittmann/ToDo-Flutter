@@ -13,6 +13,8 @@ class ToDoAppScaffold extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
+  var createToDo;
+
   Color color;
   Brightness brightness;
   var changeTheme;
@@ -26,6 +28,7 @@ class ToDoAppScaffold extends StatefulWidget {
       this.undoLeftSwipe,
       this.rightSwipe,
       this.undoRightSwipe,
+      this.createToDo,
       this.color,
       this.brightness,
       this.changeTheme,
@@ -55,8 +58,8 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        drawer: new ToDoAppDrawer(config.indicator, config.color, config.brightness,
-            config.changeTheme, config.changeColor),
+        drawer: new ToDoAppDrawer(config.indicator, config.color,
+            config.brightness, config.changeTheme, config.changeColor),
         appBar: new AppBar(
           elevation: 2,
           title: _getAppTitle(),
@@ -65,12 +68,12 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
                 ? new IconButton(
                     icon: new Icon(Icons.create),
                     onPressed: () {
-//                Navigator.push(
-//                  context,
-//                  new MaterialPageRoute(builder: (BuildContext context) {
-//                    return new ToDoAppCreate(config.updateToDo);
-//                  }),
-//                );
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(builder: (BuildContext context) {
+                          return new ToDoAppCreate(config.createToDo);
+                        }),
+                      );
                     })
                 : new Container(),
           ],

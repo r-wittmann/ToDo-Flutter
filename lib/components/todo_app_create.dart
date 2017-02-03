@@ -120,7 +120,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
               builder: (FormFieldState<InputValue> field) {
                 return new Input(
                   icon: new Icon(Icons.label),
-                  hintText: 'e.g. Some more information about Unicorns.',
+                  hintText: 'e.g More information about Unicorns.',
                   labelText: 'Description',
                   value: field.value,
                   onChanged: field.onChanged,

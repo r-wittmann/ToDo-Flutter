@@ -41,6 +41,12 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
       _trashList;
     });
   }
+  void _createToDo(Map<String, dynamic> toDo) {
+    setState(() {
+      _toDoList.add(toDo);
+    });
+    _saveToDos();
+  }
   void _toggleDone(toDo) {
     if (!toDo['done']) {
       setState(() {
@@ -265,6 +271,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _unarchiveToDo,
             _deleteToDo,
             _undeleteToDo,
+            _createToDo,
             _color,
             _brightness,
             _changeTheme,
@@ -277,6 +284,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _archiveToDo,
             _deleteArchive,
             _undeleteArchive,
+            null,
             _color,
             _brightness,
             _changeTheme,
@@ -289,6 +297,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             null,
             _undeleteToDo,
             _deleteToDo,
+            null,
             _color,
             _brightness,
             _changeTheme,
