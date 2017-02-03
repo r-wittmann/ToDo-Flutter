@@ -8,8 +8,8 @@ class Archive extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
-  Archive(this.toDo, this.toggleToDo, this.leftSwipe,
-      this.undoLeftSwipe, this.rightSwipe, this.undoRightSwipe);
+  Archive(this.toDo, this.toggleToDo, this.leftSwipe, this.undoLeftSwipe,
+      this.rightSwipe, this.undoRightSwipe);
 
   @override
   State createState() => new ArchiveState();
@@ -70,12 +70,12 @@ class ArchiveState extends State<Archive> {
       ),
       child: new ListItem(
         dense: true,
+        enabled: false,
         leading: new IconButton(
             icon: new Icon(config.toDo['done']
                 ? Icons.check_box
                 : Icons.check_box_outline_blank),
-            onPressed: () {}
-        ),
+            onPressed: () {}),
         title: new Text(config.toDo['title']),
         subtitle: new Text(config.toDo['subtitle']),
       ),

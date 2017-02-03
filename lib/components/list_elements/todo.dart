@@ -8,8 +8,8 @@ class ToDo extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
-  ToDo(this.toDo, this.toggleToDo, this.leftSwipe,
-      this.undoLeftSwipe, this.rightSwipe, this.undoRightSwipe);
+  ToDo(this.toDo, this.toggleToDo, this.leftSwipe, this.undoLeftSwipe,
+      this.rightSwipe, this.undoRightSwipe);
 
   @override
   State createState() => new ToDoState();
@@ -71,11 +71,12 @@ class ToDoState extends State<ToDo> {
       child: new ListItem(
         dense: true,
         leading: new IconButton(
-            icon: new Icon(config.toDo['done']
-                ? Icons.check_box
-                : Icons.check_box_outline_blank),
-            onPressed: () => config.toggleToDo(config.toDo)
-        ),
+            icon: new Icon(
+                config.toDo['done']
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                color: config.toDo['done'] ? Colors.green[400] : null),
+            onPressed: () => config.toggleToDo(config.toDo)),
         title: new Text(config.toDo['title']),
         subtitle: new Text(config.toDo['subtitle']),
         onTap: () {
