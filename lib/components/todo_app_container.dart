@@ -200,6 +200,12 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
 
   void _deleteArchive(toDo) {}
   void _undeleteArchive(toDo) {}
+  void _emptyTrash() {
+    setState(() {
+      _trashList.clear();
+    });
+    _saveToDos();
+  }
 
   void _saveToDos() {
     _dataAccess.saveToDos({
@@ -278,6 +284,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _deleteToDo,
             _undeleteToDo,
             _createToDo,
+            _emptyTrash,
             _color,
             _brightness,
             _changeTheme,
@@ -291,6 +298,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _deleteArchive,
             _undeleteArchive,
             null,
+            _emptyTrash,
             _color,
             _brightness,
             _changeTheme,
@@ -304,6 +312,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _undeleteToDo,
             _deleteToDo,
             null,
+            _emptyTrash,
             _color,
             _brightness,
             _changeTheme,

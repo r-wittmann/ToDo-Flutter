@@ -14,6 +14,7 @@ class ToDoAppScaffold extends StatefulWidget {
   var undoRightSwipe;
 
   var createToDo;
+  var emptyTrash;
 
   Color color;
   Brightness brightness;
@@ -29,6 +30,7 @@ class ToDoAppScaffold extends StatefulWidget {
       this.rightSwipe,
       this.undoRightSwipe,
       this.createToDo,
+      this.emptyTrash,
       this.color,
       this.brightness,
       this.changeTheme,
@@ -59,7 +61,7 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
   Widget build(BuildContext context) {
     return new Scaffold(
         drawer: new ToDoAppDrawer(config.indicator, config.color,
-            config.brightness, config.changeTheme, config.changeColor),
+            config.brightness, config.changeTheme, config.changeColor, config.emptyTrash),
         appBar: new AppBar(
           elevation: 2,
           title: _getAppTitle(),
