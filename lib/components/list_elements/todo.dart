@@ -16,13 +16,65 @@ class ToDo extends StatefulWidget {
 }
 
 class ToDoState extends State<ToDo> {
+  ThemeData _theme;
+  void _onDragStart() {
+    Scaffold.of(context).showBottomSheet((context) {
+      return new Container(
+        decoration: new BoxDecoration(
+            border:
+                new Border(top: new BorderSide(color: _theme.disabledColor))),
+        child: new Row(
+          children: [
+            new Expanded(
+              flex: 1,
+              child: new DragTarget(
+                builder: (context, a, b) {
+                  return new Icon(Icons.archive, size: 36.0);
+                },
+                onAccept: (data) {
+                  _leftSwipe();
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            new SizedBox(
+              width: 1.0,
+              height: 48.0,
+              child: new Container(
+                decoration:
+                    new BoxDecoration(backgroundColor: _theme.disabledColor),
+              ),
+            ),
+            new Expanded(
+              flex: 1,
+              child: new DragTarget(
+                builder: (context, a, b) {
+                  return new Icon(Icons.delete, size: 36.0);
+                },
+                onAccept: (data) {
+                  _rightSwipe();
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  void _onDragCancel() {
+    Navigator.pop(context);
+  }
+
   void _leftSwipe() {
     config.leftSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
-            backgroundColor: Colors.grey[400],
+            backgroundColor: _theme.textTheme.body1.color,
             duration: new Duration(seconds: 2),
-            content: new Text('ToDo archived'),
+            content: new Text('ToDo archived',
+                style: new TextStyle(color: _theme.accentColor)),
             action: new SnackBarAction(
               label: 'UNDO',
               onPressed: () {
@@ -37,9 +89,10 @@ class ToDoState extends State<ToDo> {
     config.rightSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
-            backgroundColor: Colors.grey[400],
+            backgroundColor: _theme.textTheme.body1.color,
             duration: new Duration(seconds: 2),
-            content: new Text('ToDo deleted'),
+            content: new Text('ToDo deleted',
+                style: new TextStyle(color: _theme.accentColor)),
             action: new SnackBarAction(
               label: 'UNDO',
               onPressed: () {
@@ -52,43 +105,54 @@ class ToDoState extends State<ToDo> {
 
   @override
   Widget build(BuildContext context) {
-    return new Dismissable(
-      key: new ObjectKey({'toDo': config.toDo}),
-      direction: DismissDirection.horizontal,
-      resizeDuration: new Duration(milliseconds: 500),
-      background: new Container(
-        decoration: new BoxDecoration(backgroundColor: Colors.red[400]),
-        child: new ListItem(
-          leading: new Icon(Icons.delete, size: 40.0),
+    setState(() {
+      _theme = Theme.of(context);
+    });
+    return new LongPressDraggable(
+        key: new ObjectKey({'toDo': config.toDo}),
+        data: config.toDo,
+        feedback: new SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: new Card(
+            child: new ListItem(
+              dense: true,
+              leading: new IconButton(
+                icon: new Icon(
+                    config.toDo['done']
+                        ? Icons.check_box
+                        : Icons.check_box_outline_blank,
+                    color: config.toDo['done'] ? Colors.green[400] : null),
+                onPressed: () {},
+              ),
+              title: new Text(config.toDo['title']),
+              subtitle: new Text(config.toDo['subtitle']),
+              onTap: () {},
+            ),
+          ),
         ),
-      ),
-      secondaryBackground: new Container(
-        decoration: new BoxDecoration(backgroundColor: Colors.blue[500]),
-        child: new ListItem(
-          trailing: new Icon(Icons.archive, size: 40.0),
+        childWhenDragging: new Card(
+          child: new ListItem(
+            title: new Text('blub'),
+          ),
         ),
-      ),
-      child: new ListItem(
-        dense: true,
-        leading: new IconButton(
-            icon: new Icon(
-                config.toDo['done']
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-                color: config.toDo['done'] ? Colors.green[400] : null),
-            onPressed: () => config.toggleToDo(config.toDo)),
-        title: new Text(config.toDo['title']),
-        subtitle: new Text(config.toDo['subtitle']),
-        onTap: () {
-          // config.toggleToDo(config.toDo);
+        child: new ListItem(
+          dense: true,
+          leading: new IconButton(
+              icon: new Icon(
+                  config.toDo['done']
+                      ? Icons.check_box
+                      : Icons.check_box_outline_blank,
+                  color: config.toDo['done'] ? Colors.green[400] : null),
+              onPressed: () => config.toggleToDo(config.toDo)),
+          title: new Text(config.toDo['title']),
+          subtitle: new Text(config.toDo['subtitle']),
+          onTap: () {},
+        ),
+        onDragStarted: () {
+          _onDragStart();
         },
-      ),
-      onDismissed: (direction) {
-        if (direction == DismissDirection.startToEnd)
-          _rightSwipe();
-        else
-          _leftSwipe();
-      },
-    );
+        onDraggableCanceled: (o, v) {
+          _onDragCancel();
+        });
   }
 }

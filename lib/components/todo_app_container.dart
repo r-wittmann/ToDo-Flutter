@@ -264,9 +264,13 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
       theme: new ThemeData(
         primaryColor: _color,
         brightness: _brightness,
-        accentColor: _color,
+        accentColor:
+            _brightness == Brightness.dark ? Colors.black87 : Colors.white70,
         primaryIconTheme: new IconThemeData(color: Colors.white),
-        iconTheme: new IconThemeData(color: Colors.white),
+        iconTheme: new IconThemeData(
+          color:
+              _brightness == Brightness.dark ? Colors.white70 : Colors.black54,
+        ),
       ),
       routes: {
         '/': (_) => new ToDoAppScaffold(
