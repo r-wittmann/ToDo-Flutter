@@ -198,8 +198,39 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     _saveToDos();
   }
 
-  void _deleteArchive(toDo) {}
-  void _undeleteArchive(toDo) {}
+  void _deleteArchive(toDo, bool undo) {
+    if (!undo) {
+      setState(() {
+        _deleteObject = toDo;
+        _deleteIndex = _archiveList.indexOf(toDo);
+        _archiveList.remove(toDo);
+        _trashList.insert(0, toDo);
+      });
+    } else {
+      setState(() {
+        _archiveList.remove(_deleteObject);
+        _trashList.insert(_deleteIndex, _deleteObject);
+      });
+    }
+    _saveToDos();
+  }
+
+  void _undeleteArchive(toDo, bool undo) {
+    if (!undo) {
+      setState(() {
+        _deleteObject = toDo;
+        _deleteIndex = _trashList.indexOf(toDo);
+        _trashList.remove(toDo);
+        _archiveList.insert(0, toDo);
+      });
+    } else {
+      setState(() {
+        _trashList.remove(_deleteObject);
+        _archiveList.insert(_deleteIndex, _deleteObject);
+      });
+    }
+    _saveToDos();
+  }
 
   void _saveToDos() {
     _dataAccess.saveToDos({
