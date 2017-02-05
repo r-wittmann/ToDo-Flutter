@@ -49,7 +49,7 @@ class TrashState extends State<Trash> {
     config.rightSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
-            backgroundColor: _theme.textTheme.body1.color,
+              backgroundColor: _theme.canvasColor,
             duration: new Duration(seconds: 2),
             content: new Text('ToDo restored',
                 style: new TextStyle(color: _theme.accentColor)),

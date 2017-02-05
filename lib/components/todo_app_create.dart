@@ -45,8 +45,6 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
   void _dismissToDo(context) {
     FormState form = _formKey.currentState;
     form.reset();
-    form.dispose();
-    print(Navigator.canPop(context).toString());
     Navigator.pop(context);
   }
 

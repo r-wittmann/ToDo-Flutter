@@ -303,7 +303,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         primaryColor: _color,
         brightness: _brightness,
         accentColor:
-            _brightness == Brightness.dark ? Colors.black87 : Colors.white70,
+            _brightness == Brightness.dark ? Colors.white70 : Colors.black54,
         primaryIconTheme: new IconThemeData(color: Colors.white),
         iconTheme: new IconThemeData(
           color:

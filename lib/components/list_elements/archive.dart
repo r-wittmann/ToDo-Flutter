@@ -71,7 +71,7 @@ class ArchiveState extends State<Archive> {
     config.leftSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
-            backgroundColor: _theme.textTheme.body1.color,
+            backgroundColor: _theme.canvasColor,
             duration: new Duration(seconds: 2),
             content: new Text('ToDo restored',
                 style: new TextStyle(color: _theme.accentColor)),
@@ -89,7 +89,7 @@ class ArchiveState extends State<Archive> {
     config.rightSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
-            backgroundColor: _theme.textTheme.body1.color,
+            backgroundColor: _theme.canvasColor,
             duration: new Duration(seconds: 2),
             content: new Text('ToDo deleted',
                 style: new TextStyle(color: _theme.accentColor)),
