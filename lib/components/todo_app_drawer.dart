@@ -6,9 +6,15 @@ class ToDoAppDrawer extends StatelessWidget {
   Brightness brightness;
   var changeTheme;
   var changeColor;
+  var emptyTrash;
 
   ToDoAppDrawer(this.indicator, this.color, this.brightness, this.changeTheme,
-      this.changeColor);
+      this.changeColor, this.emptyTrash);
+
+  void _emptyTrash(context) {
+    this.emptyTrash();
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +83,7 @@ class ToDoAppDrawer extends StatelessWidget {
           new DrawerItem(
             icon: new Icon(Icons.delete_forever),
             child: new Text('Empty Trash'),
+            onPressed: () => _emptyTrash(context),
           ),
         ],
       ),
