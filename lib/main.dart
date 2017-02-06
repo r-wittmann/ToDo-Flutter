@@ -11,4 +11,3 @@ class ToDoApp extends StatelessWidget {
     return new ToDoAppContainer();
   }
 }
-

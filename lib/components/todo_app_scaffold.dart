@@ -60,8 +60,13 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        drawer: new ToDoAppDrawer(config.indicator, config.color,
-            config.brightness, config.changeTheme, config.changeColor, config.emptyTrash),
+        drawer: new ToDoAppDrawer(
+            config.indicator,
+            config.color,
+            config.brightness,
+            config.changeTheme,
+            config.changeColor,
+            config.emptyTrash),
         appBar: new AppBar(
           elevation: 2,
           title: _getAppTitle(),
