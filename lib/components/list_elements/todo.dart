@@ -109,7 +109,6 @@ class ToDoState extends State<ToDo> {
       _theme = Theme.of(context);
     });
     return new LongPressDraggable(
-      key: new ObjectKey({'toDo': config.toDo}),
       data: config.toDo,
       feedback: new SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -131,8 +130,11 @@ class ToDoState extends State<ToDo> {
         ),
       ),
       childWhenDragging: new Card(
+        elevation: 0,
         child: new ListItem(
-          title: new Text('blub'),
+          dense: true,
+          title: new Text(''),
+          subtitle: new Text(''),
         ),
       ),
       child: new Card(
