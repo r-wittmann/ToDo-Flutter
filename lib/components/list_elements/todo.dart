@@ -137,7 +137,8 @@ class ToDoState extends State<ToDo> {
       ),
       child: new Card(
         elevation: 0,
-          color: new Color.fromRGBO(_theme.cardColor.red, _theme.cardColor.green, _theme.cardColor.blue, 0.5),
+        color: new Color.fromRGBO(_theme.cardColor.red, _theme.cardColor.green,
+            _theme.cardColor.blue, 0.5),
         child: new ListItem(
           dense: true,
           leading: new IconButton(
