@@ -20,14 +20,32 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   var _deleteObject;
   int _deleteIndex;
 
-  ToDoDataAccess _dataAccess;
+  bool _useDarkTheme = true;
+  Brightness _brightness = Brightness.dark;
+
+  int _colorIndex = 0;
+  Color _color = Colors.red[800];
+
+  ToDoDataAccess _dataAccess = new ToDoDataAccess();
+
+  Future<Null> _loadTheme() async {
+    Map<String, dynamic> themeObjects = await _dataAccess.loadTheme();
+
+    _useDarkTheme = themeObjects['theme'] == 'dark';
+    _brightness =
+        themeObjects['theme'] == 'dark' ? Brightness.dark : Brightness.light;
+
+    _colorIndex = themeObjects['colorIndex'];
+    _color = _useDarkTheme
+        ? _darkColorList[_colorIndex]
+        : _lightColorList[_colorIndex];
+  }
 
   Future _loadToDos() async {
     setState(() {
       _toDosLoaded = true;
     });
 
-    _dataAccess = new ToDoDataAccess();
     Map<String, dynamic> toDoObjects = await _dataAccess.loadToDos();
     _toDoList = toDoObjects['toDos'];
     _doneList = toDoObjects['done'];
@@ -248,12 +266,6 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     });
   }
 
-  bool _useDarkTheme = true;
-  Brightness _brightness = Brightness.dark;
-
-  int _colorIndex = 0;
-  Color _color = Colors.red[800];
-
   List<Color> _darkColorList = [
     Colors.red[800],
     Colors.deepPurple[800],
@@ -290,12 +302,19 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
           ? _darkColorList[_colorIndex]
           : _lightColorList[_colorIndex];
     });
+    _saveTheme();
+  }
+
+  void _saveTheme() {
+    _dataAccess.saveTheme(
+        {'theme': _useDarkTheme ? 'dark' : 'light', 'colorIndex': _colorIndex});
   }
 
   @override
   Widget build(BuildContext context) {
     if (!_toDosLoaded) {
       _loadToDos();
+      _loadTheme();
     }
 
     return new MaterialApp(
