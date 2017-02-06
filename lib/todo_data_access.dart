@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 class ToDoDataAccess {
   File _toDoFile;
+  File _themeFile;
 
   Future<Map<String, dynamic>> loadToDos() async {
     await _loadToDoFile();
@@ -54,5 +55,30 @@ class ToDoDataAccess {
 
   void saveToDos(objects) {
     _toDoFile.writeAsString(JSON.encode(objects));
+  }
+
+  Future<Map<String, dynamic>> loadTheme() async {
+    await _loadThemeFile();
+    String fileString = await _themeFile.readAsString();
+    Map<String, dynamic> themeObjects = await JSON.decode(fileString);
+
+    return await themeObjects;
+  }
+
+  Future<Null> _loadThemeFile() async {
+    String dir = (await PathProvider.getApplicationDocumentsDirectory()).path;
+    _themeFile = new File('$dir/theme.txt');
+    // _themeFile.delete();
+    if (!await _themeFile.exists()) {
+      _themeFile.create();
+      await _themeFile.writeAsString(JSON.encode({
+        'theme': 'dark',
+        'colorIndex': 0,
+      }));
+    }
+  }
+
+  void saveTheme(objects) {
+    _themeFile.writeAsString(JSON.encode(objects));
   }
 }
