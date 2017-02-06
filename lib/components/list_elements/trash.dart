@@ -96,20 +96,25 @@ class TrashState extends State<Trash> {
           title: new Text('blub'),
         ),
       ),
-      child: new ListItem(
-        dense: true,
-        enabled: false,
-        leading: new IconButton(
-          icon: new Icon(
-              config.toDo['done']
-                  ? Icons.check_box
-                  : Icons.check_box_outline_blank,
-              color: config.toDo['done'] ? Colors.green[400] : null),
-          onPressed: () {},
+      child: new Card(
+        elevation: 0,
+        color: new Color.fromRGBO(_theme.cardColor.red, _theme.cardColor.green,
+            _theme.cardColor.blue, 0.5),
+        child: new ListItem(
+          dense: true,
+          enabled: false,
+          leading: new IconButton(
+            icon: new Icon(
+                config.toDo['done']
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                color: config.toDo['done'] ? Colors.green[400] : null),
+            onPressed: () {},
+          ),
+          title: new Text(config.toDo['title']),
+          subtitle: new Text(config.toDo['subtitle']),
+          onTap: () {},
         ),
-        title: new Text(config.toDo['title']),
-        subtitle: new Text(config.toDo['subtitle']),
-        onTap: () {},
       ),
       onDragStarted: () {
         _onDragStart();

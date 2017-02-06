@@ -309,6 +309,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
           color:
               _brightness == Brightness.dark ? Colors.white70 : Colors.black54,
         ),
+        cardColor: _brightness == Brightness.dark ? Colors.grey[800] : Colors.grey[300],
       ),
       routes: {
         '/': (_) => new ToDoAppScaffold(
