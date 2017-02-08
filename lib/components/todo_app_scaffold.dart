@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 class ToDoAppScaffold extends StatefulWidget {
   int indicator;
+  bool toDosLoaded;
   List toDoList;
 
   var toggleDone;
@@ -18,6 +19,8 @@ class ToDoAppScaffold extends StatefulWidget {
   var createToDo;
   var emptyTrash;
 
+  var reorderList;
+
   Color color;
   Brightness brightness;
   var changeTheme;
@@ -25,6 +28,7 @@ class ToDoAppScaffold extends StatefulWidget {
 
   ToDoAppScaffold(
       this.indicator,
+      this.toDosLoaded,
       this.toDoList,
       this.toggleDone,
       this.leftSwipe,
@@ -33,17 +37,22 @@ class ToDoAppScaffold extends StatefulWidget {
       this.undoRightSwipe,
       this.createToDo,
       this.emptyTrash,
+      this.reorderList,
       this.color,
       this.brightness,
       this.changeTheme,
       this.changeColor);
 
   @override
-  State createState() => new ToDoAppScaffoldState();
+  State createState() => new ToDoAppScaffoldState(this.toDosLoaded);
 }
 
 class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
-  bool _displaySplash = true;
+  bool _displaySplash;
+
+  ToDoAppScaffoldState(bool toDosLoaded) {
+      _displaySplash = !toDosLoaded;
+  }
 
   void _removeSplash() {
     new Timer(const Duration(milliseconds: 4000), () {
@@ -109,7 +118,8 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
               config.leftSwipe,
               config.undoLeftSwipe,
               config.rightSwipe,
-              config.undoRightSwipe));
+              config.undoRightSwipe,
+              config.reorderList));
     }
   }
 }

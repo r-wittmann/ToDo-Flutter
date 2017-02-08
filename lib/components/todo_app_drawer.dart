@@ -33,7 +33,8 @@ class ToDoAppDrawer extends StatelessWidget {
                 icon: new Icon(Icons.check_box),
                 child: new Text('ToDo List'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/');
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/');
                 }),
           ),
           new Container(
@@ -45,7 +46,8 @@ class ToDoAppDrawer extends StatelessWidget {
                 icon: new Icon(Icons.archive),
                 child: new Text('Archive'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/archive');
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/archive');
                 }),
           ),
           new Container(
@@ -57,7 +59,8 @@ class ToDoAppDrawer extends StatelessWidget {
                 icon: new Icon(Icons.delete),
                 child: new Text('Trash'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/trash');
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/trash');
                 }),
           ),
           new Divider(),

@@ -46,7 +46,6 @@ class ToDoDataAccess {
             'done': false,
           }
         ],
-        'done': [],
         'archive': [],
         'trash': []
       }));

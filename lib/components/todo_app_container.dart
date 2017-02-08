@@ -11,12 +11,10 @@ class ToDoAppContainer extends StatefulWidget {
 class ToDoAppContainerState extends State<ToDoAppContainer> {
   bool _toDosLoaded = false;
   List _toDoList = [];
-  List _doneList = [];
   List _archiveList = [];
   List _trashList = [];
   var _archiveObject;
   int _archiveIndex;
-  int _deleteOrigin;
   var _deleteObject;
   int _deleteIndex;
 
@@ -48,13 +46,11 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
 
     Map<String, dynamic> toDoObjects = await _dataAccess.loadToDos();
     _toDoList = toDoObjects['toDos'];
-    _doneList = toDoObjects['done'];
     _archiveList = toDoObjects['archive'];
     _trashList = toDoObjects['trash'];
 
     setState(() {
       _toDoList;
-      _doneList;
       _archiveList;
       _trashList;
     });
@@ -68,150 +64,83 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   }
 
   void _toggleDone(toDo) {
-    if (!toDo['done']) {
-      setState(() {
-        _toDoList.remove(toDo);
-        toDo['done'] = true;
-        _doneList.insert(0, toDo);
-      });
-    } else {
-      setState(() {
-        _doneList.remove(toDo);
-        toDo['done'] = false;
-        _toDoList.add(toDo);
-      });
-    }
+    _toDoList.remove(toDo);
+    toDo['done'] = !toDo['done'];
+    if (toDo['done'])
+      _toDoList.insert(0, toDo);
+    else
+      _toDoList.add(toDo);
+
+    setState(() {
+      _toDoList;
+    });
     _saveToDos();
   }
 
   void _archiveToDo(toDo, bool undo) {
     if (!undo) {
-      if (toDo['done']) {
-        setState(() {
-          _archiveObject = toDo;
-          _archiveIndex = _doneList.indexOf(toDo);
-          _doneList.remove(toDo);
-          _archiveList.insert(0, toDo);
-        });
-      } else {
-        setState(() {
-          _archiveObject = toDo;
-          _archiveIndex = _toDoList.indexOf(toDo);
-          _toDoList.remove(toDo);
-          _archiveList.insert(0, toDo);
-        });
-      }
+      setState(() {
+        _archiveObject = toDo;
+        _archiveIndex = _toDoList.indexOf(toDo);
+        _toDoList.remove(toDo);
+        _archiveList.insert(0, toDo);
+      });
     } else {
-      if (_archiveObject['done']) {
-        setState(() {
-          _doneList.remove(_archiveObject);
-          _archiveList.insert(_archiveIndex, _archiveObject);
-        });
-      } else {
-        setState(() {
-          _toDoList.remove(_archiveObject);
-          _archiveList.insert(_archiveIndex, _archiveObject);
-        });
-      }
+      setState(() {
+        _toDoList.remove(_archiveObject);
+        _archiveList.insert(_archiveIndex, _archiveObject);
+      });
     }
     _saveToDos();
   }
 
   void _unarchiveToDo(toDo, bool undo) {
     if (!undo) {
-      if (toDo['done']) {
-        setState(() {
-          _archiveObject = toDo;
-          _archiveIndex = _archiveList.indexOf(toDo);
-          _archiveList.remove(toDo);
-          _doneList.insert(0, toDo);
-        });
-      } else {
-        setState(() {
-          _archiveObject = toDo;
-          _archiveIndex = _archiveList.indexOf(toDo);
-          _archiveList.remove(toDo);
-          _toDoList.insert(0, toDo);
-        });
-      }
+      setState(() {
+        _archiveObject = toDo;
+        _archiveIndex = _archiveList.indexOf(toDo);
+        _archiveList.remove(toDo);
+        _toDoList.insert(0, toDo);
+      });
     } else {
-      if (_archiveObject['done']) {
-        setState(() {
-          _archiveList.remove(_archiveObject);
-          _doneList.insert(_archiveIndex, _archiveObject);
-        });
-      } else {
-        setState(() {
-          _archiveList.remove(_archiveObject);
-          _toDoList.insert(_archiveIndex, _archiveObject);
-        });
-      }
+      setState(() {
+        _archiveList.remove(_archiveObject);
+        _toDoList.insert(_archiveIndex, _archiveObject);
+      });
     }
     _saveToDos();
   }
 
   void _deleteToDo(toDo, bool undo) {
     if (!undo) {
-      if (toDo['done']) {
-        setState(() {
-          _deleteObject = toDo;
-          _deleteIndex = _doneList.indexOf(toDo);
-          _doneList.remove(toDo);
-          _trashList.insert(0, toDo);
-        });
-      } else {
-        setState(() {
-          _deleteObject = toDo;
-          _deleteIndex = _toDoList.indexOf(toDo);
-          _toDoList.remove(toDo);
-          _trashList.insert(0, toDo);
-        });
-      }
+      setState(() {
+        _deleteObject = toDo;
+        _deleteIndex = _toDoList.indexOf(toDo);
+        _toDoList.remove(toDo);
+        _trashList.insert(0, toDo);
+      });
     } else {
-      if (_deleteObject['done']) {
-        setState(() {
-          _doneList.remove(_deleteObject);
-          _trashList.insert(_deleteIndex, _deleteObject);
-        });
-      } else {
-        setState(() {
-          _toDoList.remove(_deleteObject);
-          _trashList.insert(_deleteIndex, _deleteObject);
-        });
-      }
+      setState(() {
+        _toDoList.remove(_deleteObject);
+        _trashList.insert(_deleteIndex, _deleteObject);
+      });
     }
     _saveToDos();
   }
 
   void _undeleteToDo(toDo, bool undo) {
     if (!undo) {
-      if (toDo['done']) {
-        setState(() {
-          _deleteObject = toDo;
-          _deleteIndex = _trashList.indexOf(toDo);
-          _trashList.remove(toDo);
-          _doneList.insert(0, toDo);
-        });
-      } else {
-        setState(() {
-          _deleteObject = toDo;
-          _deleteIndex = _trashList.indexOf(toDo);
-          _trashList.remove(toDo);
-          _toDoList.insert(0, toDo);
-        });
-      }
+      setState(() {
+        _deleteObject = toDo;
+        _deleteIndex = _trashList.indexOf(toDo);
+        _trashList.remove(toDo);
+        _toDoList.insert(0, toDo);
+      });
     } else {
-      if (_deleteObject['done']) {
-        setState(() {
-          _trashList.remove(_deleteObject);
-          _doneList.insert(_deleteIndex, _deleteObject);
-        });
-      } else {
-        setState(() {
-          _trashList.remove(_deleteObject);
-          _toDoList.insert(_deleteIndex, _deleteObject);
-        });
-      }
+      setState(() {
+        _trashList.remove(_deleteObject);
+        _toDoList.insert(_deleteIndex, _deleteObject);
+      });
     }
     _saveToDos();
   }
@@ -257,13 +186,31 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     _saveToDos();
   }
 
-  void _saveToDos() {
-    _dataAccess.saveToDos({
-      'toDos': _toDoList,
-      'done': _doneList,
-      'archive': _archiveList,
-      'trash': _trashList
+  void _reorderList(droppedToDo, referenceToDo) {
+    int indicator = 0;
+    if(droppedToDo == referenceToDo) return;
+    if (_toDoList.indexOf(droppedToDo) < _toDoList.indexOf(referenceToDo))
+      indicator = 1;
+
+    _toDoList.remove(droppedToDo);
+    _toDoList.insert(_toDoList.indexOf(referenceToDo) + indicator, droppedToDo);
+    setState(() {
+      _toDoList;
     });
+    _saveToDos();
+  }
+
+  void _saveToDos() {
+    _toDoList.sort((a, b) {
+      if (a['done'] == b['done'])
+        return 0;
+      else if (a['done'])
+        return 1;
+      else
+        return -1;
+    });
+    _dataAccess.saveToDos(
+        {'toDos': _toDoList, 'archive': _archiveList, 'trash': _trashList});
   }
 
   List<Color> _darkColorList = [
@@ -329,13 +276,14 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
               _brightness == Brightness.dark ? Colors.white70 : Colors.black54,
         ),
         cardColor: _brightness == Brightness.dark
-            ? Colors.grey[800]
-            : Colors.grey[300],
+            ? Colors.grey[850]
+            : Colors.grey[50],
       ),
       routes: {
         '/': (_) => new ToDoAppScaffold(
             0,
-            []..addAll(_toDoList)..addAll(_doneList),
+            _toDosLoaded,
+            _toDoList,
             _toggleDone,
             _archiveToDo,
             _unarchiveToDo,
@@ -343,12 +291,14 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _undeleteToDo,
             _createToDo,
             _emptyTrash,
+            _reorderList,
             _color,
             _brightness,
             _changeTheme,
             _changeColor),
         '/archive': (_) => new ToDoAppScaffold(
             1,
+            _toDosLoaded,
             _archiveList,
             null,
             _unarchiveToDo,
@@ -357,12 +307,14 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _undeleteArchive,
             null,
             _emptyTrash,
+            null,
             _color,
             _brightness,
             _changeTheme,
             _changeColor),
         '/trash': (_) => new ToDoAppScaffold(
             2,
+            _toDosLoaded,
             _trashList,
             null,
             null,
@@ -371,6 +323,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _deleteToDo,
             null,
             _emptyTrash,
+            null,
             _color,
             _brightness,
             _changeTheme,

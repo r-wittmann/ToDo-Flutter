@@ -12,8 +12,17 @@ class ParentElement extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
-  ParentElement(this.indicator, this.toDo, this.toggleToDo, this.leftSwipe,
-      this.undoLeftSwipe, this.rightSwipe, this.undoRightSwipe);
+  var reorderList;
+
+  ParentElement(
+      this.indicator,
+      this.toDo,
+      this.toggleToDo,
+      this.leftSwipe,
+      this.undoLeftSwipe,
+      this.rightSwipe,
+      this.undoRightSwipe,
+      this.reorderList);
 
   @override
   State createState() => new ParentElementState();
@@ -24,8 +33,14 @@ class ParentElementState extends State<ParentElement> {
   Widget build(BuildContext context) {
     switch (config.indicator) {
       case 0:
-        return new ToDo(config.toDo, config.toggleToDo, config.leftSwipe,
-            config.undoLeftSwipe, config.rightSwipe, config.undoRightSwipe);
+        return new ToDo(
+            config.toDo,
+            config.toggleToDo,
+            config.leftSwipe,
+            config.undoLeftSwipe,
+            config.rightSwipe,
+            config.undoRightSwipe,
+            config.reorderList);
         break;
       case 1:
         return new Archive(config.toDo, config.toggleToDo, config.leftSwipe,

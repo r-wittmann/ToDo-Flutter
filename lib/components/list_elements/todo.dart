@@ -8,8 +8,10 @@ class ToDo extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
+  var reorderList;
+
   ToDo(this.toDo, this.toggleToDo, this.leftSwipe, this.undoLeftSwipe,
-      this.rightSwipe, this.undoRightSwipe);
+      this.rightSwipe, this.undoRightSwipe, this.reorderList);
 
   @override
   State createState() => new ToDoState();
@@ -108,59 +110,70 @@ class ToDoState extends State<ToDo> {
     setState(() {
       _theme = Theme.of(context);
     });
-    return new LongPressDraggable(
-      data: config.toDo,
-      feedback: new SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: new Card(
-          child: new ListItem(
-            dense: true,
-            leading: new IconButton(
-              icon: new Icon(
-                  config.toDo['done']
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank,
-                  color: config.toDo['done'] ? Colors.green[400] : null),
-              onPressed: () {},
+    return new Stack(
+      children: [
+        new LongPressDraggable(
+          data: config.toDo,
+          feedback: new SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: new Card(
+              elevation: 4,
+              child: new ListItem(
+                dense: true,
+                leading: new IconButton(
+                  icon: new Icon(
+                      config.toDo['done']
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      color: config.toDo['done'] ? Colors.green[400] : null),
+                  onPressed: () {},
+                ),
+                title: new Text(config.toDo['title']),
+                subtitle: new Text(config.toDo['subtitle']),
+              ),
             ),
-            title: new Text(config.toDo['title']),
-            subtitle: new Text(config.toDo['subtitle']),
-            onTap: () {},
           ),
+          childWhenDragging: new Card(
+            elevation: 0,
+            child: new ListItem(
+              dense: true,
+              title: new Text(''),
+              subtitle: new Text(''),
+            ),
+          ),
+          child: new Card(
+            elevation: 2,
+            child: new ListItem(
+              dense: true,
+              leading: new IconButton(
+                  icon: new Icon(
+                      config.toDo['done']
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      color: config.toDo['done'] ? Colors.green[400] : null),
+                  onPressed: () => config.toggleToDo(config.toDo)),
+              title: new Text(config.toDo['title']),
+              subtitle: new Text(config.toDo['subtitle']),
+              onTap: () {},
+            ),
+          ),
+          onDragStarted: () {
+            _onDragStart();
+          },
+          onDraggableCanceled: (o, v) {
+            _onDragCancel();
+          },
         ),
-      ),
-      childWhenDragging: new Card(
-        elevation: 0,
-        child: new ListItem(
-          dense: true,
-          title: new Text(''),
-          subtitle: new Text(''),
+        new DragTarget(
+          onAccept: (data) {
+            config.reorderList(data, config.toDo);
+            Navigator.pop(context);
+          },
+          builder: (context, a, b) {
+            return new Container(height: 60.0);
+          },
         ),
-      ),
-      child: new Card(
-        elevation: 0,
-        color: new Color.fromRGBO(_theme.cardColor.red, _theme.cardColor.green,
-            _theme.cardColor.blue, 0.5),
-        child: new ListItem(
-          dense: true,
-          leading: new IconButton(
-              icon: new Icon(
-                  config.toDo['done']
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank,
-                  color: config.toDo['done'] ? Colors.green[400] : null),
-              onPressed: () => config.toggleToDo(config.toDo)),
-          title: new Text(config.toDo['title']),
-          subtitle: new Text(config.toDo['subtitle']),
-          onTap: () {},
-        ),
-      ),
-      onDragStarted: () {
-        _onDragStart();
-      },
-      onDraggableCanceled: (o, v) {
-        _onDragCancel();
-      },
+      ],
     );
   }
 }

@@ -73,6 +73,7 @@ class TrashState extends State<Trash> {
       feedback: new SizedBox(
         width: MediaQuery.of(context).size.width,
         child: new Card(
+          elevation: 4,
           child: new ListItem(
             enabled: false,
             dense: true,
@@ -86,7 +87,6 @@ class TrashState extends State<Trash> {
             ),
             title: new Text(config.toDo['title']),
             subtitle: new Text(config.toDo['subtitle']),
-            onTap: () {},
           ),
         ),
       ),
@@ -94,14 +94,13 @@ class TrashState extends State<Trash> {
         elevation: 0,
         child: new ListItem(
           dense: true,
+            enabled: false,
           title: new Text(''),
           subtitle: new Text(''),
         ),
       ),
       child: new Card(
-        elevation: 0,
-        color: new Color.fromRGBO(_theme.cardColor.red, _theme.cardColor.green,
-            _theme.cardColor.blue, 0.5),
+        elevation: 2,
         child: new ListItem(
           dense: true,
           enabled: false,

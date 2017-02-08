@@ -11,8 +11,17 @@ class ToDoAppBody extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
-  ToDoAppBody(this.indicator, this.toDoList, this.toggleDone, this.leftSwipe,
-      this.undoLeftSwipe, this.rightSwipe, this.undoRightSwipe);
+  var reorderList;
+
+  ToDoAppBody(
+      this.indicator,
+      this.toDoList,
+      this.toggleDone,
+      this.leftSwipe,
+      this.undoLeftSwipe,
+      this.rightSwipe,
+      this.undoRightSwipe,
+      this.reorderList);
 
   @override
   State createState() => new ToDoAppBodyState();
@@ -26,6 +35,26 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
     _listElements = [];
 
     config.toDoList.forEach((toDo) {
+      if (toDo['done'] && toDo == config.toDoList.firstWhere((a) => a['done']))
+        _listElements.add(
+          new Row(
+            children: [
+              new Padding(
+                padding: new EdgeInsets.symmetric(horizontal: 8.0),
+                child: new Text('Already done:'),
+              ),
+              new Expanded(
+                child: new Container(
+                  height: 1.0,
+                  margin: new EdgeInsets.only(right: 8.0),
+                  decoration: new BoxDecoration(
+                    backgroundColor: Theme.of(context).disabledColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       _listElements.add(new ParentElement(
           config.indicator,
           toDo,
@@ -33,7 +62,8 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
           config.leftSwipe,
           config.undoLeftSwipe,
           config.rightSwipe,
-          config.undoRightSwipe));
+          config.undoRightSwipe,
+          config.reorderList));
     });
 
     return new Block(
