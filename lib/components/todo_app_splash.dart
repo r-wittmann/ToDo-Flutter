@@ -46,7 +46,7 @@ class ToDoSplashState extends State<ToDoSplash>
           new Transform(
             transform: new Matrix4.translationValues(
                 0.0, -50.0 + (1 - _animationLogo.value) * -300, 0.0),
-            child: new Image.asset('assets/ic_launcher.png'),
+            child: new Image.asset('assets/logo_light.png'),
           ),
           new Transform(
             transform: new Matrix4.translationValues(

@@ -23,6 +23,15 @@ class ToDoAppDrawer extends StatelessWidget {
         children: [
           new DrawerHeader(
             decoration: new BoxDecoration(backgroundColor: color),
+            child: new Row(
+              children: [
+                new Image.asset('assets/logo_light.png', width: 64.0),
+                new Padding(
+                  padding: new EdgeInsets.only(left: 24.0),
+                  child: new Text('ToDo', textScaleFactor: 1.6, style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                ),
+              ],
+            ),
           ),
           new Container(
             decoration: indicator == 0
