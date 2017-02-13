@@ -1,4 +1,4 @@
-import 'package:ToDo/components/list_elements/parent_element.dart';
+import 'package:ToDo/components/app_todo.dart';
 import 'package:flutter/material.dart';
 
 class ToDoAppBody extends StatefulWidget {
@@ -55,7 +55,7 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
             ],
           ),
         );
-      _listElements.add(new ParentElement(
+      _listElements.add(new ToDo(
           config.indicator,
           toDo,
           config.toggleDone,

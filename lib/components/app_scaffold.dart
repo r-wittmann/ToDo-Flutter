@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:ToDo/components/todo_app_body.dart';
-import 'package:ToDo/components/todo_app_create.dart';
-import 'package:ToDo/components/todo_app_drawer.dart';
-import 'package:ToDo/components/todo_app_splash.dart';
+import 'package:ToDo/components/app_body.dart';
+import 'package:ToDo/components/app_create.dart';
+import 'package:ToDo/components/app_drawer.dart';
+import 'package:ToDo/components/app_splash.dart';
 import 'package:flutter/material.dart';
 
 class ToDoAppScaffold extends StatefulWidget {
@@ -51,7 +51,7 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
   bool _displaySplash;
 
   ToDoAppScaffoldState(bool toDosLoaded) {
-      _displaySplash = !toDosLoaded;
+    _displaySplash = !toDosLoaded;
   }
 
   void _removeSplash() {
@@ -94,11 +94,20 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
               config.emptyTrash),
           appBar: new AppBar(
             elevation: 2,
+            leading: new Builder(
+              builder: (context) {
+                return new IconButton(
+                    icon: new Icon(Icons.more_vert),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    });
+              },
+            ),
             title: _getAppTitle(),
             actions: [
               config.indicator == 0
                   ? new IconButton(
-                      icon: new Icon(Icons.create),
+                      icon: new Icon(Icons.playlist_add),
                       onPressed: () {
                         Navigator.push(
                           context,

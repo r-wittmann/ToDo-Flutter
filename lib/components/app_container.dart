@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:ToDo/components/todo_app_scaffold.dart';
-import 'package:ToDo/todo_data_access.dart';
+import 'package:ToDo/components/app_scaffold.dart';
+import 'package:ToDo/data_access.dart';
 import 'package:flutter/material.dart';
 
 class ToDoAppContainer extends StatefulWidget {
@@ -179,23 +179,59 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     _saveToDos();
   }
 
-  void _emptyTrash() {
+  void _emptyTrash(toDo, bool undo) {
+    if (!undo) {
+      setState(() {
+        _deleteObject = toDo;
+        _deleteIndex = _trashList.indexOf(toDo);
+        _trashList.remove(toDo);
+      });
+    } else if (undo) {
+      setState(() {
+        _trashList.insert(_deleteIndex, _deleteObject);
+      });
+    } else {
+      setState(() {
+        _trashList.clear();
+      });
+    }
+    _saveToDos();
+  }
+
+  void _restoreTrash(toDo, bool undo) {
     setState(() {
-      _trashList.clear();
+      _trashList.insert(_deleteIndex, _deleteObject);
     });
     _saveToDos();
   }
 
   void _reorderList(droppedToDo, referenceToDo) {
+    if (droppedToDo == referenceToDo) return;
     int indicator = 0;
-    if(droppedToDo == referenceToDo) return;
-    if (_toDoList.indexOf(droppedToDo) < _toDoList.indexOf(referenceToDo))
-      indicator = 1;
 
-    _toDoList.remove(droppedToDo);
-    _toDoList.insert(_toDoList.indexOf(referenceToDo) + indicator, droppedToDo);
+    if (_toDoList.contains(droppedToDo)) {
+      if (_toDoList.indexOf(droppedToDo) < _toDoList.indexOf(referenceToDo))
+        indicator = 1;
+      _toDoList.remove(droppedToDo);
+      _toDoList.insert(
+          _toDoList.indexOf(referenceToDo) + indicator, droppedToDo);
+    } else if (_archiveList.contains(droppedToDo)) {
+      if (_archiveList.indexOf(droppedToDo) <
+          _archiveList.indexOf(referenceToDo)) indicator = 1;
+      _archiveList.remove(droppedToDo);
+      _archiveList.insert(
+          _archiveList.indexOf(referenceToDo) + indicator, droppedToDo);
+    } else if (_trashList.contains(droppedToDo)) {
+      if (_trashList.indexOf(droppedToDo) < _trashList.indexOf(referenceToDo))
+        indicator = 1;
+      _trashList.remove(droppedToDo);
+      _trashList.insert(
+          _trashList.indexOf(referenceToDo) + indicator, droppedToDo);
+    }
     setState(() {
       _toDoList;
+      _archiveList;
+      _trashList;
     });
     _saveToDos();
   }
@@ -275,9 +311,8 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
           color:
               _brightness == Brightness.dark ? Colors.white70 : Colors.black54,
         ),
-        cardColor: _brightness == Brightness.dark
-            ? Colors.grey[850]
-            : Colors.grey[50],
+        cardColor:
+            _brightness == Brightness.dark ? Colors.grey[850] : Colors.grey[50],
       ),
       routes: {
         '/': (_) => new ToDoAppScaffold(
@@ -307,7 +342,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _undeleteArchive,
             null,
             _emptyTrash,
-            null,
+            _reorderList,
             _color,
             _brightness,
             _changeTheme,
@@ -317,13 +352,13 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _toDosLoaded,
             _trashList,
             null,
-            null,
-            null,
             _undeleteToDo,
             _deleteToDo,
+            _emptyTrash,
+            _restoreTrash,
             null,
             _emptyTrash,
-            null,
+            _reorderList,
             _color,
             _brightness,
             _changeTheme,

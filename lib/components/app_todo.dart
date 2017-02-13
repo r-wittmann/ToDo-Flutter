@@ -1,6 +1,8 @@
+import 'package:ToDo/components/app_detail.dart';
 import 'package:flutter/material.dart';
 
 class ToDo extends StatefulWidget {
+  int indicator;
   var toDo;
   var toggleToDo;
   var leftSwipe;
@@ -10,8 +12,15 @@ class ToDo extends StatefulWidget {
 
   var reorderList;
 
-  ToDo(this.toDo, this.toggleToDo, this.leftSwipe, this.undoLeftSwipe,
-      this.rightSwipe, this.undoRightSwipe, this.reorderList);
+  ToDo(
+      this.indicator,
+      this.toDo,
+      this.toggleToDo,
+      this.leftSwipe,
+      this.undoLeftSwipe,
+      this.rightSwipe,
+      this.undoRightSwipe,
+      this.reorderList);
 
   @override
   State createState() => new ToDoState();
@@ -19,7 +28,41 @@ class ToDo extends StatefulWidget {
 
 class ToDoState extends State<ToDo> {
   ThemeData _theme;
+  bool _expanded = false;
+  String _leftText;
+  String _rightText;
+  Icon _leftIcon;
+  Icon _rightIcon;
+
+  @override
+  void initState() {
+    super.initState();
+    switch (config.indicator) {
+      case 0:
+        _leftText = 'ToDo archived';
+        _rightText = 'ToDo deleted';
+        _leftIcon = new Icon(Icons.archive, size: 36.0);
+        _rightIcon = new Icon(Icons.delete, size: 36.0);
+        break;
+      case 1:
+        _leftText = 'ToDo restored';
+        _rightText = 'ToDo deleted';
+        _leftIcon = new Icon(Icons.unarchive, size: 36.0);
+        _rightIcon = new Icon(Icons.delete, size: 36.0);
+        break;
+      default:
+        _leftText = 'ToDo restored';
+        _rightText = 'ToDo deleted';
+        _leftIcon = new Icon(Icons.restore_from_trash, size: 36.0);
+        _rightIcon = new Icon(Icons.delete_forever, size: 36.0);
+        break;
+    }
+  }
+
   void _onDragStart() {
+    setState(() {
+      _expanded = false;
+    });
     Scaffold.of(context).showBottomSheet((context) {
       return new Container(
         decoration: new BoxDecoration(
@@ -31,7 +74,7 @@ class ToDoState extends State<ToDo> {
               flex: 1,
               child: new DragTarget(
                 builder: (context, a, b) {
-                  return new Icon(Icons.archive, size: 36.0);
+                  return _leftIcon;
                 },
                 onAccept: (data) {
                   _leftSwipe();
@@ -51,7 +94,7 @@ class ToDoState extends State<ToDo> {
               flex: 1,
               child: new DragTarget(
                 builder: (context, a, b) {
-                  return new Icon(Icons.delete, size: 36.0);
+                  return _rightIcon;
                 },
                 onAccept: (data) {
                   _rightSwipe();
@@ -75,7 +118,7 @@ class ToDoState extends State<ToDo> {
           new SnackBar(
             backgroundColor: _theme.canvasColor,
             duration: new Duration(seconds: 2),
-            content: new Text('ToDo archived',
+            content: new Text(_leftText,
                 style: new TextStyle(color: _theme.accentColor)),
             action: new SnackBarAction(
               label: 'UNDO',
@@ -93,7 +136,7 @@ class ToDoState extends State<ToDo> {
           new SnackBar(
             backgroundColor: _theme.canvasColor,
             duration: new Duration(seconds: 2),
-            content: new Text('ToDo deleted',
+            content: new Text(_rightText,
                 style: new TextStyle(color: _theme.accentColor)),
             action: new SnackBarAction(
               label: 'UNDO',
@@ -143,18 +186,70 @@ class ToDoState extends State<ToDo> {
           ),
           child: new Card(
             elevation: 2,
-            child: new ListItem(
-              dense: true,
-              leading: new IconButton(
-                  icon: new Icon(
-                      config.toDo['done']
-                          ? Icons.check_box
-                          : Icons.check_box_outline_blank,
-                      color: config.toDo['done'] ? Colors.green[400] : null),
-                  onPressed: () => config.toggleToDo(config.toDo)),
-              title: new Text(config.toDo['title']),
-              subtitle: new Text(config.toDo['subtitle']),
-              onTap: () {},
+            child: new Column(
+              children: [
+                new ListItem(
+                  dense: true,
+                  leading: new IconButton(
+                    icon: new Icon(
+                        config.toDo['done']
+                            ? Icons.check_box
+                            : Icons.check_box_outline_blank,
+                        color: config.toDo['done'] ? Colors.green[400] : null),
+                    onPressed: config.toggleToDo is Function ? () => config.toggleToDo(config.toDo) : () {},
+                  ),
+                  title: new Text(config.toDo['title']),
+                  subtitle: new Text(config.toDo['subtitle']),
+                  trailing: new IconButton(
+                    icon: new Icon(
+                      _expanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _expanded = !_expanded;
+                      });
+                    },
+                  ),
+                ),
+                _expanded
+                    ? new Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          new Expanded(
+                            flex: 1,
+                            child: new Container(
+                              alignment: FractionalOffset.topLeft,
+                              padding: new EdgeInsets.fromLTRB(
+                                  24.0, 0.0, 24.0, 12.0),
+                              child: new Text(
+                                config.toDo['description'],
+                                textScaleFactor: 0.9,
+                              ),
+                            ),
+                          ),
+                          config.indicator == 0 ? new Container(
+                            padding:
+                                new EdgeInsets.only(right: 12.0, bottom: 12.0),
+                            child: new IconButton(
+                              icon: new Icon(Icons.edit),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) {
+                                      return new ToDoDetail();
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ) : new Container(),
+                        ],
+                      )
+                    : new Container(),
+              ],
             ),
           ),
           onDragStarted: () {

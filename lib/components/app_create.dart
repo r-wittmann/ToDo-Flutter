@@ -67,7 +67,10 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldKey,
-      appBar: new AppBar(title: new Text('Create ToDo')),
+      appBar: new AppBar(
+        elevation: 2,
+        title: new Text('Create ToDo'),
+      ),
       body: new Form(
         key: _formKey,
         autovalidate: _autovalidate,

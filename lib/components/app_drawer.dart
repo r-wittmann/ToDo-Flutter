@@ -12,7 +12,7 @@ class ToDoAppDrawer extends StatelessWidget {
       this.changeColor, this.emptyTrash);
 
   void _emptyTrash(context) {
-    this.emptyTrash();
+    this.emptyTrash(null);
     Navigator.pop(context);
   }
 
@@ -28,7 +28,10 @@ class ToDoAppDrawer extends StatelessWidget {
                 new Image.asset('assets/logo_light.png', width: 64.0),
                 new Padding(
                   padding: new EdgeInsets.only(left: 24.0),
-                  child: new Text('ToDo', textScaleFactor: 1.6, style: new TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  child: new Text('ToDo',
+                      textScaleFactor: 1.6,
+                      style: new TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
