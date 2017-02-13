@@ -8,6 +8,6 @@ void main() {
 class ToDoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-      return new ToDoAppContainer();
+    return new ToDoAppContainer();
   }
 }

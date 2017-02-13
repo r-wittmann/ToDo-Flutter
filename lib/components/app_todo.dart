@@ -196,7 +196,9 @@ class ToDoState extends State<ToDo> {
                             ? Icons.check_box
                             : Icons.check_box_outline_blank,
                         color: config.toDo['done'] ? Colors.green[400] : null),
-                    onPressed: config.toggleToDo is Function ? () => config.toggleToDo(config.toDo) : () {},
+                    onPressed: config.toggleToDo is Function
+                        ? () => config.toggleToDo(config.toDo)
+                        : () {},
                   ),
                   title: new Text(config.toDo['title']),
                   subtitle: new Text(config.toDo['subtitle']),
@@ -229,23 +231,25 @@ class ToDoState extends State<ToDo> {
                               ),
                             ),
                           ),
-                          config.indicator == 0 ? new Container(
-                            padding:
-                                new EdgeInsets.only(right: 12.0, bottom: 12.0),
-                            child: new IconButton(
-                              icon: new Icon(Icons.edit),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) {
-                                      return new ToDoDetail();
+                          config.indicator == 0
+                              ? new Container(
+                                  padding: new EdgeInsets.only(
+                                      right: 12.0, bottom: 12.0),
+                                  child: new IconButton(
+                                    icon: new Icon(Icons.edit),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                          builder: (context) {
+                                            return new ToDoDetail();
+                                          },
+                                        ),
+                                      );
                                     },
                                   ),
-                                );
-                              },
-                            ),
-                          ) : new Container(),
+                                )
+                              : new Container(),
                         ],
                       )
                     : new Container(),
