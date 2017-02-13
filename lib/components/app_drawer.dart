@@ -12,7 +12,7 @@ class ToDoAppDrawer extends StatelessWidget {
       this.changeColor, this.emptyTrash);
 
   void _emptyTrash(context) {
-    this.emptyTrash(null);
+    this.emptyTrash(null, null);
     Navigator.pop(context);
   }
 

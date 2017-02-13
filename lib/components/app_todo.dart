@@ -1,4 +1,3 @@
-import 'package:ToDo/components/app_detail.dart';
 import 'package:flutter/material.dart';
 
 class ToDo extends StatefulWidget {
@@ -238,14 +237,14 @@ class ToDoState extends State<ToDo> {
                                   child: new IconButton(
                                     icon: new Icon(Icons.edit),
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                          builder: (context) {
-                                            return new ToDoDetail();
-                                          },
-                                        ),
-                                      );
+//                                      Navigator.push(
+//                                        context,
+//                                        new MaterialPageRoute(
+//                                          builder: (context) {
+//                                            return new ToDoDetail();
+//                                          },
+//                                        ),
+//                                      );
                                     },
                                   ),
                                 )
