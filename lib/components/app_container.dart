@@ -255,7 +255,8 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     Colors.blue[800],
     Colors.teal[800],
     Colors.green[800],
-    Colors.orange[900]
+    Colors.orange[900],
+    Colors.grey[850],
   ];
   List<Color> _lightColorList = [
     Colors.red[500],
@@ -263,7 +264,8 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     Colors.blue[500],
     Colors.teal[500],
     Colors.green[500],
-    Colors.orange[500]
+    Colors.orange[500],
+    Colors.grey[100],
   ];
 
   void _changeTheme() {

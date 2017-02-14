@@ -25,13 +25,23 @@ class ToDoAppDrawer extends StatelessWidget {
             decoration: new BoxDecoration(backgroundColor: color),
             child: new Row(
               children: [
-                new Image.asset('assets/logo_light.png', width: 64.0),
+                new Image.asset(
+                    color == Colors.grey[100] || color == Colors.grey[850]
+                        ? 'assets/logo_clear.png'
+                        : 'assets/logo_light.png',
+                    width: 64.0),
                 new Padding(
                   padding: new EdgeInsets.only(left: 24.0),
-                  child: new Text('ToDo',
-                      textScaleFactor: 1.6,
-                      style: new TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
+                  child: new Text(
+                    'ToDo',
+                    style: new TextStyle(
+                      fontSize: 20.0,
+                      color: color == Colors.grey[100]
+                          ? Colors.grey[850]
+                          : Colors.grey[100],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -85,7 +95,7 @@ class ToDoAppDrawer extends StatelessWidget {
                 changeTheme();
               }),
           new DrawerItem(
-              icon: new Icon(Icons.format_paint, color: color),
+              icon: new Icon(Icons.format_paint),
               child: new Text('Change Color'),
               onPressed: () {
                 changeColor(false);

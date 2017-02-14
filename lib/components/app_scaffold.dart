@@ -93,6 +93,19 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
               config.changeColor,
               config.emptyTrash),
           appBar: new AppBar(
+            iconTheme: new IconThemeData(
+              color: config.color == Colors.grey[100]
+                  ? Colors.grey[850]
+                  : Colors.grey[100],
+            ),
+            textTheme: new TextTheme(
+                title: new TextStyle(
+              color: config.color == Colors.grey[100]
+                  ? Colors.grey[850]
+                  : Colors.grey[100],
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            )),
             elevation: 2,
             leading: new Builder(
               builder: (context) {
