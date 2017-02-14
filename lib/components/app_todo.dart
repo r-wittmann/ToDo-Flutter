@@ -223,46 +223,23 @@ class ToDoState extends State<ToDo> {
                 new AnimatedContainer(
                   height: _boxHeight,
                   duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeInOut,
+                  curve: Curves.ease,
                   child: new Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       new Expanded(
                         flex: 1,
-                        child: new Stack(
-                          alignment: FractionalOffset.bottomCenter,
-                          children: [
-                            new Container(
-                              alignment: FractionalOffset.topLeft,
-                              padding: new EdgeInsets.fromLTRB(
-                                  24.0, 0.0, 24.0, 12.0),
-                              child: new Text(
-                                'Description:\n' + config.toDo['description'],
-                                textScaleFactor: 0.9,
-                              ),
-                            ),
-                            new Container(
-                              height: 40.0,
-                              decoration: new BoxDecoration(
-                                gradient: new LinearGradient(
-                                  begin: FractionalOffset.topCenter,
-                                  end: FractionalOffset.bottomCenter,
-                                  colors: [
-                                    new Color.fromRGBO(
-                                        _theme.cardColor.red,
-                                        _theme.cardColor.green,
-                                        _theme.cardColor.blue,
-                                        0.0),
-                                    new Color.fromRGBO(
-                                        _theme.cardColor.red,
-                                        _theme.cardColor.green,
-                                        _theme.cardColor.blue,
-                                        1.0),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                        child: new Container(
+                          alignment: FractionalOffset.topLeft,
+                          padding:
+                              new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 12.0),
+                          child: new Text(
+                            config.toDo['description'].length >= 120
+                                ? config.toDo['description'].substring(0, 120) +
+                                    '...'
+                                : config.toDo['description'],
+                            textScaleFactor: 0.9,
+                          ),
                         ),
                       ),
                       config.indicator == 0
@@ -304,6 +281,7 @@ class ToDoState extends State<ToDo> {
           },
           builder: (context, a, b) {
             return new AnimatedContainer(
+              curve: Curves.ease,
               duration: const Duration(milliseconds: 200),
               height: 60.0 + _boxHeight,
             );
