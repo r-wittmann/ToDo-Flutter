@@ -33,6 +33,8 @@ class ToDoState extends State<ToDo> {
   Icon _leftIcon;
   Icon _rightIcon;
 
+  double _boxHeight;
+
   @override
   void initState() {
     super.initState();
@@ -56,11 +58,14 @@ class ToDoState extends State<ToDo> {
         _rightIcon = new Icon(Icons.delete_forever, size: 36.0);
         break;
     }
+    _expanded = false;
+    _boxHeight = 0.0;
   }
 
   void _onDragStart() {
     setState(() {
       _expanded = false;
+      _boxHeight = 0.0;
     });
     Scaffold.of(context).showBottomSheet((context) {
       return new Container(
@@ -210,33 +215,63 @@ class ToDoState extends State<ToDo> {
                     onPressed: () {
                       setState(() {
                         _expanded = !_expanded;
+                        _boxHeight = _expanded ? 64.0 : 0.0;
                       });
                     },
                   ),
                 ),
-                _expanded
-                    ? new Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          new Expanded(
-                            flex: 1,
-                            child: new Container(
+                new AnimatedContainer(
+                  height: _boxHeight,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                  child: new Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      new Expanded(
+                        flex: 1,
+                        child: new Stack(
+                          alignment: FractionalOffset.bottomCenter,
+                          children: [
+                            new Container(
                               alignment: FractionalOffset.topLeft,
                               padding: new EdgeInsets.fromLTRB(
                                   24.0, 0.0, 24.0, 12.0),
                               child: new Text(
-                                config.toDo['description'],
+                                'Description:\n' + config.toDo['description'],
                                 textScaleFactor: 0.9,
                               ),
                             ),
-                          ),
-                          config.indicator == 0
-                              ? new Container(
-                                  padding: new EdgeInsets.only(
-                                      right: 12.0, bottom: 12.0),
-                                  child: new IconButton(
-                                    icon: new Icon(Icons.edit),
-                                    onPressed: () {
+                            new Container(
+                              height: 40.0,
+                              decoration: new BoxDecoration(
+                                gradient: new LinearGradient(
+                                  begin: FractionalOffset.topCenter,
+                                  end: FractionalOffset.bottomCenter,
+                                  colors: [
+                                    new Color.fromRGBO(
+                                        _theme.cardColor.red,
+                                        _theme.cardColor.green,
+                                        _theme.cardColor.blue,
+                                        0.0),
+                                    new Color.fromRGBO(
+                                        _theme.cardColor.red,
+                                        _theme.cardColor.green,
+                                        _theme.cardColor.blue,
+                                        1.0),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      config.indicator == 0
+                          ? new Container(
+                              alignment: FractionalOffset.bottomRight,
+                              padding: new EdgeInsets.only(right: 12.0),
+                              child: new IconButton(
+                                icon: new Icon(Icons.edit),
+                                onPressed: () {
 //                                      Navigator.push(
 //                                        context,
 //                                        new MaterialPageRoute(
@@ -245,13 +280,13 @@ class ToDoState extends State<ToDo> {
 //                                          },
 //                                        ),
 //                                      );
-                                    },
-                                  ),
-                                )
-                              : new Container(),
-                        ],
-                      )
-                    : new Container(),
+                                },
+                              ),
+                            )
+                          : new Container(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -268,7 +303,10 @@ class ToDoState extends State<ToDo> {
             Navigator.pop(context);
           },
           builder: (context, a, b) {
-            return new Container(height: 60.0);
+            return new AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              height: 60.0 + _boxHeight,
+            );
           },
         ),
       ],
