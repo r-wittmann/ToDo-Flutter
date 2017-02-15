@@ -22,6 +22,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   Brightness _brightness = Brightness.dark;
 
   int _colorIndex = 0;
+  Map<int, Color> _colors = Colors.red;
   Color _color = Colors.red[800];
 
   ToDoDataAccess _dataAccess = new ToDoDataAccess();
@@ -34,9 +35,10 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         themeObjects['theme'] == 'dark' ? Brightness.dark : Brightness.light;
 
     _colorIndex = themeObjects['colorIndex'];
-    _color = _useDarkTheme
+    _colors = _useDarkTheme
         ? _darkColorList[_colorIndex]
         : _lightColorList[_colorIndex];
+    _color = _useDarkTheme ? _colors[800] : _colors[500];
   }
 
   Future _loadToDos() async {
@@ -180,7 +182,11 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   }
 
   void _emptyTrash(toDo, bool undo) {
-    if (!undo) {
+    if (toDo == null) {
+      setState(() {
+        _trashList.clear();
+      });
+    } else if (!undo) {
       setState(() {
         _deleteObject = toDo;
         _deleteIndex = _trashList.indexOf(toDo);
@@ -189,10 +195,6 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     } else if (undo) {
       setState(() {
         _trashList.insert(_deleteIndex, _deleteObject);
-      });
-    } else {
-      setState(() {
-        _trashList.clear();
       });
     }
     _saveToDos();
@@ -249,23 +251,23 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         {'toDos': _toDoList, 'archive': _archiveList, 'trash': _trashList});
   }
 
-  List<Color> _darkColorList = [
-    Colors.red[800],
-    Colors.deepPurple[800],
-    Colors.blue[800],
-    Colors.teal[800],
-    Colors.green[800],
-    Colors.orange[900],
-    Colors.grey[850],
+  List<Map<int, Color>> _darkColorList = [
+    Colors.red,
+    Colors.deepPurple,
+    Colors.blue,
+    Colors.teal,
+    Colors.green,
+    Colors.orange,
+    Colors.grey,
   ];
-  List<Color> _lightColorList = [
-    Colors.red[500],
-    Colors.deepPurple[500],
-    Colors.blue[500],
-    Colors.teal[500],
-    Colors.green[500],
-    Colors.orange[500],
-    Colors.grey[100],
+  List<Map<int, Color>> _lightColorList = [
+    Colors.red,
+    Colors.deepPurple,
+    Colors.blue,
+    Colors.teal,
+    Colors.green,
+    Colors.orange,
+    Colors.grey,
   ];
 
   void _changeTheme() {
@@ -283,9 +285,10 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
       });
     }
     setState(() {
-      _color = _useDarkTheme
+      _colors = _useDarkTheme
           ? _darkColorList[_colorIndex]
           : _lightColorList[_colorIndex];
+      _color = _useDarkTheme ? _colors[800] : _colors[500];
     });
     _saveTheme();
   }
@@ -304,17 +307,11 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
 
     return new MaterialApp(
       theme: new ThemeData(
-        primaryColor: _color,
         brightness: _brightness,
-        accentColor:
-            _brightness == Brightness.dark ? Colors.white70 : Colors.black54,
-        primaryIconTheme: new IconThemeData(color: Colors.white),
-        iconTheme: new IconThemeData(
-          color:
-              _brightness == Brightness.dark ? Colors.white70 : Colors.black54,
-        ),
-        cardColor:
-            _brightness == Brightness.dark ? Colors.grey[850] : Colors.grey[50],
+        primaryColor: _brightness == Brightness.dark ? _color : null,
+        primarySwatch: _brightness == Brightness.light ? _colors : null,
+        primaryColorBrightness: Brightness.dark,
+        accentColor: Colors.blue[500],
       ),
       routes: {
         '/': (_) => new ToDoAppScaffold(

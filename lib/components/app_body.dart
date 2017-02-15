@@ -48,7 +48,7 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
                   height: 1.0,
                   margin: new EdgeInsets.only(right: 8.0),
                   decoration: new BoxDecoration(
-                    backgroundColor: Theme.of(context).disabledColor,
+                    backgroundColor: Theme.of(context).dividerColor,
                   ),
                 ),
               ),

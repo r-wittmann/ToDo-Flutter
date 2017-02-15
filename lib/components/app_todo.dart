@@ -71,7 +71,7 @@ class ToDoState extends State<ToDo> {
       return new Container(
         decoration: new BoxDecoration(
             border:
-                new Border(top: new BorderSide(color: _theme.disabledColor))),
+                new Border(top: new BorderSide(color: _theme.dividerColor))),
         child: new Row(
           children: [
             new Expanded(
@@ -91,7 +91,7 @@ class ToDoState extends State<ToDo> {
               height: 48.0,
               child: new Container(
                 decoration:
-                    new BoxDecoration(backgroundColor: _theme.disabledColor),
+                    new BoxDecoration(backgroundColor: _theme.dividerColor),
               ),
             ),
             new Expanded(
@@ -120,10 +120,8 @@ class ToDoState extends State<ToDo> {
     config.leftSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
-            backgroundColor: _theme.canvasColor,
             duration: new Duration(seconds: 2),
-            content: new Text(_leftText,
-                style: new TextStyle(color: _theme.accentColor)),
+            content: new Text(_leftText),
             action: new SnackBarAction(
               label: 'UNDO',
               onPressed: () {
@@ -138,10 +136,8 @@ class ToDoState extends State<ToDo> {
     config.rightSwipe(config.toDo, false);
     Scaffold.of(context).showSnackBar(
           new SnackBar(
-            backgroundColor: _theme.canvasColor,
             duration: new Duration(seconds: 2),
-            content: new Text(_rightText,
-                style: new TextStyle(color: _theme.accentColor)),
+            content: new Text(_rightText),
             action: new SnackBarAction(
               label: 'UNDO',
               onPressed: () {
@@ -169,10 +165,11 @@ class ToDoState extends State<ToDo> {
                 dense: true,
                 leading: new IconButton(
                   icon: new Icon(
-                      config.toDo['done']
-                          ? Icons.check_box
-                          : Icons.check_box_outline_blank,
-                      color: config.toDo['done'] ? Colors.green[400] : null),
+                    config.toDo['done']
+                        ? Icons.check_box
+                        : Icons.check_box_outline_blank,
+                    color: config.toDo['done'] ? Colors.green[600] : null,
+                  ),
                   onPressed: () {},
                 ),
                 title: new Text(config.toDo['title']),
@@ -196,10 +193,11 @@ class ToDoState extends State<ToDo> {
                   dense: true,
                   leading: new IconButton(
                     icon: new Icon(
-                        config.toDo['done']
-                            ? Icons.check_box
-                            : Icons.check_box_outline_blank,
-                        color: config.toDo['done'] ? Colors.green[400] : null),
+                      config.toDo['done']
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      color: config.toDo['done'] ? Colors.green[600] : null,
+                    ),
                     onPressed: config.toggleToDo is Function
                         ? () => config.toggleToDo(config.toDo)
                         : () {},
