@@ -74,7 +74,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
       body: new Form(
         key: _formKey,
         autovalidate: _autovalidate,
-        child: new Block(
+        child: new ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           children: <Widget>[
             new FormField<InputValue>(

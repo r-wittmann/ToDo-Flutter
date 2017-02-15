@@ -19,7 +19,7 @@ class ToDoAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Drawer(
-      child: new Block(
+      child: new ListView(
         children: [
           new DrawerHeader(
             decoration: new BoxDecoration(backgroundColor: color),

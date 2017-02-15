@@ -66,7 +66,7 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
           config.reorderList));
     });
 
-    return new Block(
+    return new ListView(
       children: _listElements,
     );
   }
