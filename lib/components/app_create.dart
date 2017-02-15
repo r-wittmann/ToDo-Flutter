@@ -69,6 +69,11 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
       key: _scaffoldKey,
       appBar: new AppBar(
         elevation: 2,
+        leading: new IconButton(
+            icon: new Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         title: new Text('Create ToDo'),
       ),
       body: new Form(

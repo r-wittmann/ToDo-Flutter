@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppBottomSheet extends StatefulWidget {
+class ToDoAppBottomSheet extends StatefulWidget {
   BuildContext context;
   int indicator;
   var toDo;
@@ -9,14 +9,14 @@ class AppBottomSheet extends StatefulWidget {
   var rightSwipe;
   var undoRightSwipe;
 
-  AppBottomSheet(this.context, this.indicator, this.toDo, this.leftSwipe,
+  ToDoAppBottomSheet(this.context, this.indicator, this.toDo, this.leftSwipe,
       this.undoLeftSwipe, this.rightSwipe, this.undoRightSwipe);
 
   @override
-  State createState() => new AppBottomSheetState();
+  State createState() => new ToDoAppBottomSheetState();
 }
 
-class AppBottomSheetState extends State<AppBottomSheet> {
+class ToDoAppBottomSheetState extends State<ToDoAppBottomSheet> {
   ThemeData _theme;
   String _leftText;
   String _rightText;

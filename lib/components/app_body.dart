@@ -32,9 +32,9 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
   var _expandedElement = null;
 
   void _toggleExpand(toDo, bool expand) {
-      setState(() {
-        _expandedElement = expand ? toDo : null;
-      });
+    setState(() {
+      _expandedElement = expand ? toDo : null;
+    });
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:ToDo/components/app_bottom_sheet.dart';
+import 'package:ToDo/components/app_detail.dart';
 import 'package:flutter/material.dart';
 
 class ToDo extends StatefulWidget {
@@ -38,8 +39,14 @@ class ToDoState extends State<ToDo> {
   void _onDragStart() {
     config.toggleExpand(config.toDo, false);
     Scaffold.of(context).showBottomSheet((context) {
-      return new AppBottomSheet(context, config.indicator, config.toDo, config.leftSwipe,
-          config.undoLeftSwipe, config.rightSwipe, config.undoRightSwipe);
+      return new ToDoAppBottomSheet(
+          context,
+          config.indicator,
+          config.toDo,
+          config.leftSwipe,
+          config.undoLeftSwipe,
+          config.rightSwipe,
+          config.undoRightSwipe);
     });
   }
 
@@ -116,30 +123,56 @@ class ToDoState extends State<ToDo> {
                   height: _boxHeight,
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.ease,
-                  padding: new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 0.0),
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      new Text(
-                        'Discription:   ' + config.toDo['description'],
-                        textScaleFactor: 0.9,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      new Divider(),
-                      new Text('More Details... need to be added',
-                          textScaleFactor: 0.9),
-                      new Divider(),
-                      new FlatButton(
-                        child: new Row(
+                  padding: new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 12.0),
+                  child: new DefaultTextStyle(
+                    style: new TextStyle(fontSize: 14.0),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        new Container(
+                          height: 36.0,
+                          child: new Text(
+                            'Discription:   ' + config.toDo['description'],
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        new Row(
                           children: [
-                            new Icon(Icons.edit),
-                            new Text('   Edit'),
+                            new Expanded(
+                              child: new Text('Estimation:'),
+                            ),
+                            new Text('not implemented yet'),
                           ],
                         ),
-                        onPressed: () {},
-                      ),
-                    ],
+                        new SizedBox(
+                          height: 8.0,
+                        ),
+                        new Row(
+                          children: [
+                            new Expanded(
+                              child: new Text('Due Date:'),
+                            ),
+                            new Text('not implemented yet'),
+                          ],
+                        ),
+                        new Expanded(
+                          child: new Container(),
+                        ),
+                        new FlatButton(
+                          child: new Text('More'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return new ToDoAppDetail(config.toDo, config.toggleToDo);
+                              }),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
