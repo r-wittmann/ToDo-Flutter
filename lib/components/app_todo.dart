@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class ToDo extends StatefulWidget {
   int indicator;
   var toDo;
+  bool expanded;
+  var toggleExpand;
   var toggleToDo;
   var leftSwipe;
   var undoLeftSwipe;
@@ -14,6 +16,8 @@ class ToDo extends StatefulWidget {
   ToDo(
       this.indicator,
       this.toDo,
+      this.expanded,
+      this.toggleExpand,
       this.toggleToDo,
       this.leftSwipe,
       this.undoLeftSwipe,
@@ -27,7 +31,7 @@ class ToDo extends StatefulWidget {
 
 class ToDoState extends State<ToDo> {
   ThemeData _theme;
-  bool _expanded = false;
+  bool _expanded;
   String _leftText;
   String _rightText;
   Icon _leftIcon;
@@ -58,15 +62,10 @@ class ToDoState extends State<ToDo> {
         _rightIcon = new Icon(Icons.delete_forever, size: 36.0);
         break;
     }
-    _expanded = false;
-    _boxHeight = 0.0;
   }
 
   void _onDragStart() {
-    setState(() {
-      _expanded = false;
-      _boxHeight = 0.0;
-    });
+    config.toggleExpand(config.toDo, false);
     Scaffold.of(context).showBottomSheet((context) {
       return new Container(
         decoration: new BoxDecoration(
@@ -152,8 +151,11 @@ class ToDoState extends State<ToDo> {
   Widget build(BuildContext context) {
     setState(() {
       _theme = Theme.of(context);
+      _expanded = config.expanded;
+      _boxHeight = _expanded ? 64.0 : 0.0;
     });
     return new Stack(
+      key: new ObjectKey(config.toDo),
       children: [
         new LongPressDraggable(
           data: config.toDo,
@@ -204,49 +206,36 @@ class ToDoState extends State<ToDo> {
                   ),
                   title: new Text(config.toDo['title']),
                   subtitle: new Text(config.toDo['subtitle']),
-                  trailing: new IconButton(
-                    icon: new Icon(
-                      _expanded
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _expanded = !_expanded;
-                        _boxHeight = _expanded ? 64.0 : 0.0;
-                      });
-                    },
-                  ),
+                  trailing: _expanded ?
+                    new Icon(Icons.keyboard_arrow_up)
+                      : new Container(),
+                  onTap: () {
+                    config.toggleExpand(config.toDo, !_expanded);
+                  },
                 ),
                 new AnimatedContainer(
                   height: _boxHeight,
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.ease,
-                  child: new Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      new Expanded(
-                        flex: 1,
-                        child: new Container(
+                  child: new Container(
                           alignment: FractionalOffset.topLeft,
                           padding:
                               new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 12.0),
                           child: new Text(
-                            config.toDo['description'].length >= 120
-                                ? config.toDo['description'].substring(0, 120) +
+                            config.toDo['description'].length >= 140
+                                ? config.toDo['description'].substring(0, 140) +
                                     '...'
                                 : config.toDo['description'],
                             textScaleFactor: 0.9,
                           ),
                         ),
-                      ),
-                      config.indicator == 0
-                          ? new Container(
-                              alignment: FractionalOffset.bottomRight,
-                              padding: new EdgeInsets.only(right: 12.0),
-                              child: new IconButton(
-                                icon: new Icon(Icons.edit),
-                                onPressed: () {
+//                      config.indicator == 0
+//                          ? new Container(
+//                              alignment: FractionalOffset.bottomRight,
+//                              padding: new EdgeInsets.only(right: 12.0),
+//                              child: new IconButton(
+//                                icon: new Icon(Icons.edit),
+//                                onPressed: () {
 //                                      Navigator.push(
 //                                        context,
 //                                        new MaterialPageRoute(
@@ -255,12 +244,10 @@ class ToDoState extends State<ToDo> {
 //                                          },
 //                                        ),
 //                                      );
-                                },
-                              ),
-                            )
-                          : new Container(),
-                    ],
-                  ),
+//                                },
+//                              ),
+//                            )
+//                          : new Container(),
                 ),
               ],
             ),

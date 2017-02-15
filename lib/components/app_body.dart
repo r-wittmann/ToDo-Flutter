@@ -29,6 +29,13 @@ class ToDoAppBody extends StatefulWidget {
 
 class ToDoAppBodyState extends State<ToDoAppBody> {
   List _listElements;
+  var _expandedElement = null;
+
+  void _toggleExpand(toDo, bool expand) {
+      setState(() {
+        _expandedElement = expand ? toDo : null;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +65,8 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
       _listElements.add(new ToDo(
           config.indicator,
           toDo,
+          _expandedElement == toDo,
+          _toggleExpand,
           config.toggleDone,
           config.leftSwipe,
           config.undoLeftSwipe,
