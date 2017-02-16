@@ -33,14 +33,15 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     Map<String, dynamic> themeObjects = await _dataAccess.loadTheme();
 
     _useDarkTheme = themeObjects['theme'] == 'dark';
-    _brightness =
-        themeObjects['theme'] == 'dark' ? Brightness.dark : Brightness.light;
+    _brightness = _useDarkTheme ? Brightness.dark : Brightness.light;
 
     _colorIndex = themeObjects['colorIndex'];
     _colors = _useDarkTheme
         ? _darkColorList[_colorIndex]
         : _lightColorList[_colorIndex];
     _color = _useDarkTheme ? _colors[800] : _colors[500];
+
+    _displayDone = themeObjects['displayDone'];
   }
 
   Future _loadToDos() async {
@@ -296,14 +297,18 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   }
 
   void _saveTheme() {
-    _dataAccess.saveTheme(
-        {'theme': _useDarkTheme ? 'dark' : 'light', 'colorIndex': _colorIndex});
+    _dataAccess.saveTheme({
+      'theme': _useDarkTheme ? 'dark' : 'light',
+      'colorIndex': _colorIndex,
+      'displayDone': _displayDone
+    });
   }
 
   void _toggleDisplayDone() {
     setState(() {
       _displayDone = !_displayDone;
     });
+    _saveTheme();
   }
 
   @override

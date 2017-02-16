@@ -73,6 +73,7 @@ class ToDoDataAccess {
       await _themeFile.writeAsString(JSON.encode({
         'theme': 'dark',
         'colorIndex': 0,
+        'displayDone': true,
       }));
     }
   }
