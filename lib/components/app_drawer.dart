@@ -8,8 +8,18 @@ class ToDoAppDrawer extends StatelessWidget {
   var changeColor;
   var emptyTrash;
 
-  ToDoAppDrawer(this.indicator, this.color, this.brightness, this.changeTheme,
-      this.changeColor, this.emptyTrash);
+  bool displayDone;
+  var toggleDisplayDone;
+
+  ToDoAppDrawer(
+      this.indicator,
+      this.color,
+      this.brightness,
+      this.changeTheme,
+      this.changeColor,
+      this.emptyTrash,
+      this.displayDone,
+      this.toggleDisplayDone);
 
   void _emptyTrash(context) {
     this.emptyTrash(null, null);
@@ -96,9 +106,24 @@ class ToDoAppDrawer extends StatelessWidget {
               }),
           new Divider(),
           new DrawerItem(
-            icon: new Icon(Icons.calendar_today),
-            child: new Text('Use Deadlines (maybe)'),
-          ),
+              icon: new Icon(Icons.visibility_off),
+              child: new Row(
+                children: [
+                  new Expanded(
+                    child: new Text('Display Done ToDos'),
+                  ),
+                  displayDone
+                      ? new Icon(Icons.check_box, color: Colors.green[600])
+                      : new Icon(Icons.check_box_outline_blank),
+                ],
+              ),
+              onPressed: () {
+                toggleDisplayDone();
+              }),
+//          new DrawerItem(
+//            icon: new Icon(Icons.calendar_today),
+//            child: new Text('Use Deadlines (maybe)'),
+//          ),
           new DrawerItem(
             icon: new Icon(Icons.delete_forever),
             child: new Text('Empty Trash'),

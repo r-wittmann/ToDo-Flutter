@@ -25,6 +25,8 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   Map<int, Color> _colors = Colors.red;
   Color _color = Colors.red[800];
 
+  bool _displayDone = true;
+
   ToDoDataAccess _dataAccess = new ToDoDataAccess();
 
   Future<Null> _loadTheme() async {
@@ -298,6 +300,12 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
         {'theme': _useDarkTheme ? 'dark' : 'light', 'colorIndex': _colorIndex});
   }
 
+  void _toggleDisplayDone() {
+    setState(() {
+      _displayDone = !_displayDone;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!_toDosLoaded) {
@@ -329,7 +337,9 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _color,
             _brightness,
             _changeTheme,
-            _changeColor),
+            _changeColor,
+            _displayDone,
+            _toggleDisplayDone),
         '/archive': (_) => new ToDoAppScaffold(
             1,
             _toDosLoaded,
@@ -345,7 +355,9 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _color,
             _brightness,
             _changeTheme,
-            _changeColor),
+            _changeColor,
+            _displayDone,
+            _toggleDisplayDone),
         '/trash': (_) => new ToDoAppScaffold(
             2,
             _toDosLoaded,
@@ -361,7 +373,9 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _color,
             _brightness,
             _changeTheme,
-            _changeColor)
+            _changeColor,
+            _displayDone,
+            _toggleDisplayDone)
       },
     );
   }

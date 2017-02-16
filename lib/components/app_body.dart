@@ -13,6 +13,8 @@ class ToDoAppBody extends StatefulWidget {
 
   var reorderList;
 
+  bool displayDone;
+
   ToDoAppBody(
       this.indicator,
       this.toDoList,
@@ -21,7 +23,8 @@ class ToDoAppBody extends StatefulWidget {
       this.undoLeftSwipe,
       this.rightSwipe,
       this.undoRightSwipe,
-      this.reorderList);
+      this.reorderList,
+      this.displayDone);
 
   @override
   State createState() => new ToDoAppBodyState();
@@ -42,7 +45,10 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
     _listElements = [];
 
     config.toDoList.forEach((toDo) {
-      if (toDo['done'] && toDo == config.toDoList.firstWhere((a) => a['done']))
+      if (config.displayDone &&
+          toDo['done'] &&
+          toDo == config.toDoList.firstWhere((a) => a['done']) &&
+          config.indicator == 0) {
         _listElements.add(
           new Row(
             children: [
@@ -62,17 +68,20 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
             ],
           ),
         );
-      _listElements.add(new ToDo(
-          config.indicator,
-          toDo,
-          _expandedElement == toDo,
-          _toggleExpand,
-          config.toggleDone,
-          config.leftSwipe,
-          config.undoLeftSwipe,
-          config.rightSwipe,
-          config.undoRightSwipe,
-          config.reorderList));
+      }
+      if (!toDo['done'] || config.displayDone) {
+        _listElements.add(new ToDo(
+            config.indicator,
+            toDo,
+            _expandedElement == toDo,
+            _toggleExpand,
+            config.toggleDone,
+            config.leftSwipe,
+            config.undoLeftSwipe,
+            config.rightSwipe,
+            config.undoRightSwipe,
+            config.reorderList));
+      }
     });
 
     return new ListView(

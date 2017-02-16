@@ -26,6 +26,9 @@ class ToDoAppScaffold extends StatefulWidget {
   var changeTheme;
   var changeColor;
 
+  bool displayDone;
+  var toggleDisplayDone;
+
   ToDoAppScaffold(
       this.indicator,
       this.toDosLoaded,
@@ -41,7 +44,9 @@ class ToDoAppScaffold extends StatefulWidget {
       this.color,
       this.brightness,
       this.changeTheme,
-      this.changeColor);
+      this.changeColor,
+      this.displayDone,
+      this.toggleDisplayDone);
 
   @override
   State createState() => new ToDoAppScaffoldState(this.toDosLoaded);
@@ -91,7 +96,9 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
               config.brightness,
               config.changeTheme,
               config.changeColor,
-              config.emptyTrash),
+              config.emptyTrash,
+              config.displayDone,
+              config.toggleDisplayDone),
           appBar: new AppBar(
             elevation: 2,
             title: _getAppTitle(),
@@ -119,7 +126,8 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
               config.undoLeftSwipe,
               config.rightSwipe,
               config.undoRightSwipe,
-              config.reorderList));
+              config.reorderList,
+              config.displayDone));
     }
   }
 }
