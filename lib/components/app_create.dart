@@ -75,6 +75,14 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
               Navigator.pop(context);
             }),
         title: new Text('Create ToDo'),
+        actions: [
+          new IconButton(
+            icon: new Icon(Icons.check),
+            onPressed: () {
+              _saveToDo(context);
+            },
+          ),
+        ],
       ),
       body: new Form(
         key: _formKey,
@@ -134,22 +142,6 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
                   maxLines: 5,
                 );
               },
-            ),
-            new Container(
-              alignment: FractionalOffset.topLeft,
-              padding: const EdgeInsets.only(top: 12.0),
-              child: new Row(
-                children: [
-                  new FlatButton(
-                    child: new Text('Save'),
-                    onPressed: () => _saveToDo(context),
-                  ),
-                  new FlatButton(
-                    child: new Text('Dismiss'),
-                    onPressed: () => _dismissToDo(context),
-                  ),
-                ],
-              ),
             ),
           ],
         ),

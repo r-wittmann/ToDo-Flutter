@@ -12,6 +12,8 @@ class ToDoAppDetail extends StatefulWidget {
 
 class ToDoAppDetailState extends State<ToDoAppDetail> {
   var _editedToDo;
+  bool _editActive = false;
+
   @override
   void initState() {
     super.initState();
@@ -22,17 +24,39 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        leading: _editActive
+            ? new IconButton(
+                icon: new Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    _editedToDo = new Map.from(config.toDo);
+                    _editActive = false;
+                  });
+                },
+              )
+            : null,
         title: new Text('ToDo Details'),
+//        actions: [
+//          _editActive
+//              ? new IconButton(
+//                  icon: new Icon(Icons.check),
+//                  onPressed: () {
+//                    print('Save ToDo, implementation in body needed');
+//                  })
+//              : new IconButton(
+//                  icon: new Icon(Icons.edit),
+//                  onPressed: () {
+//                    setState(() {
+//                      _editActive = true;
+//                    });
+//                  },
+//                ),
+//        ],
       ),
       body: new Card(
         elevation: 2,
         child: new Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             new ListItem(
               dense: false,
@@ -46,10 +70,11 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
                 onPressed: config.toggleToDo is Function
                     ? () {
                         setState(() {
+                          _editActive = true;
                           _editedToDo['done'] = !_editedToDo['done'];
                         });
                       }
-                    : () {},
+                    : null,
               ),
               title: new Text(_editedToDo['title']),
               subtitle: new Text(_editedToDo['subtitle']),
@@ -57,15 +82,12 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
             new DefaultTextStyle(
               style: new TextStyle(fontSize: 16.0),
               child: new Padding(
-                padding: new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 12.0),
+                padding: new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    new Text('Discription:'),
-                    new SizedBox(
-                        height: 8.0,
-                    ),
-                    new Text(_editedToDo['description']),
+                    new Text('Description:   ' + _editedToDo['description'],
+                        textAlign: TextAlign.justify),
                     new SizedBox(
                       height: 8.0,
                     ),

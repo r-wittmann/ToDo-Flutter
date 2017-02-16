@@ -108,7 +108,7 @@ class ToDoState extends State<ToDo> {
                     ),
                     onPressed: config.toggleToDo is Function
                         ? () => config.toggleToDo(config.toDo)
-                        : () {},
+                        : null,
                   ),
                   title: new Text(config.toDo['title']),
                   subtitle: new Text(config.toDo['subtitle']),
@@ -133,6 +133,7 @@ class ToDoState extends State<ToDo> {
                           height: 36.0,
                           child: new Text(
                             'Discription:   ' + config.toDo['description'],
+                            textAlign: TextAlign.justify,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -166,7 +167,8 @@ class ToDoState extends State<ToDo> {
                               context,
                               new MaterialPageRoute(
                                   builder: (BuildContext context) {
-                                return new ToDoAppDetail(config.toDo, config.toggleToDo);
+                                return new ToDoAppDetail(
+                                    config.toDo, config.toggleToDo);
                               }),
                             );
                           },
