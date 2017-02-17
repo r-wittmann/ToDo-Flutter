@@ -96,7 +96,9 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
                         new Expanded(
                           child: new Text('Estimation:'),
                         ),
-                        new Text('not implemented yet'),
+                        new Text(config.toDo['estimate'] != null
+                            ? config.toDo['estimate'].toString() + ' h'
+                            : 'no Estimation'),
                       ],
                     ),
                     new SizedBox(

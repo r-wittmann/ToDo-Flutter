@@ -56,6 +56,7 @@ class ToDoState extends State<ToDo> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData _theme = Theme.of(context);
     setState(() {
       _expanded = config.expanded;
       _boxHeight = _expanded ? 140.0 : 0.0;
@@ -82,6 +83,9 @@ class ToDoState extends State<ToDo> {
                 ),
                 title: new Text(config.toDo['title']),
                 subtitle: new Text(config.toDo['subtitle']),
+                trailing: config.toDo['estimate'] is double
+                    ? new Text(config.toDo['estimate'].toString() + ' h')
+                    : null,
               ),
             ),
           ),
@@ -114,7 +118,10 @@ class ToDoState extends State<ToDo> {
                   subtitle: new Text(config.toDo['subtitle']),
                   trailing: _expanded
                       ? new Icon(Icons.keyboard_arrow_up)
-                      : new Container(),
+                      : config.toDo['estimate'] != null
+                          ? new Text(config.toDo['estimate'].toString() + ' h',
+                              textScaleFactor: 0.9)
+                          : new Container(),
                   onTap: () {
                     config.toggleExpand(config.toDo, !_expanded);
                   },
@@ -125,7 +132,11 @@ class ToDoState extends State<ToDo> {
                   curve: Curves.ease,
                   padding: new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 12.0),
                   child: new DefaultTextStyle(
-                    style: new TextStyle(fontSize: 14.0),
+                    style: new TextStyle(
+                        fontSize: 14.0,
+                        color: _theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black),
                     child: new Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -143,7 +154,9 @@ class ToDoState extends State<ToDo> {
                             new Expanded(
                               child: new Text('Estimation:'),
                             ),
-                            new Text('not implemented yet'),
+                            new Text(config.toDo['estimate'] != null
+                                ? config.toDo['estimate'].toString() + ' h'
+                                : 'no Estimation'),
                           ],
                         ),
                         new SizedBox(

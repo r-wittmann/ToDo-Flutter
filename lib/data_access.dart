@@ -29,6 +29,7 @@ class ToDoDataAccess {
             'title': 'Welcome to ToDo',
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description I',
+            'estimate': 0.5,
             'done': false,
           },
           {
@@ -36,6 +37,7 @@ class ToDoDataAccess {
             'title': 'Get to know ToDo',
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description II',
+            'estimate': 0.5,
             'done': false,
           },
           {
@@ -43,6 +45,7 @@ class ToDoDataAccess {
             'title': 'Start using ToDo',
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description III',
+            'estimate': null,
             'done': false,
           }
         ],

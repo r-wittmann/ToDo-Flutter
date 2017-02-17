@@ -15,6 +15,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
   InputValue _title;
   InputValue _subtitle;
   InputValue _description;
+  double _estimate = 0.0;
 
   void showInSnackBar(String value) {
     _scaffoldKey.currentState
@@ -36,16 +37,11 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
         'title': _title.text,
         'subtitle': _subtitle.text,
         'description': _description.text,
+        'estimate': _estimate == 0.0 ? null : _estimate,
         'done': false
       });
       Navigator.pop(context);
     }
-  }
-
-  void _dismissToDo(context) {
-    FormState form = _formKey.currentState;
-    form.reset();
-    Navigator.pop(context);
   }
 
   String _validateTitle(InputValue value) {
@@ -84,66 +80,92 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
           ),
         ],
       ),
-      body: new Form(
-        key: _formKey,
-        autovalidate: _autovalidate,
-        child: new ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          children: <Widget>[
-            new FormField<InputValue>(
-              initialValue: InputValue.empty,
-              onSaved: (InputValue val) {
-                _title = val;
-              },
-              validator: _validateTitle,
-              builder: (FormFieldState<InputValue> field) {
-                return new Input(
-                  autofocus: true,
-                  icon: new Icon(Icons.label),
-                  hintText: 'e.g. Feed the Unicorns',
-                  labelText: 'Title',
-                  value: field.value,
-                  onChanged: field.onChanged,
-                  errorText: field.errorText,
-                );
-              },
-            ),
-            new FormField<InputValue>(
-              initialValue: InputValue.empty,
-              onSaved: (InputValue val) {
-                _subtitle = val;
-              },
-              validator: _validateSubtitle,
-              builder: (FormFieldState<InputValue> field) {
-                return new Input(
-                  icon: new Icon(Icons.label),
-                  hintText: 'e.g. Unicorns need lots of food!',
-                  labelText: 'Subtitle',
-                  value: field.value,
-                  onChanged: field.onChanged,
-                  errorText: field.errorText,
-                );
-              },
-            ),
-            new FormField<InputValue>(
-              initialValue: InputValue.empty,
-              onSaved: (InputValue val) {
-                _description = val;
-              },
-              validator: _validateDescription,
-              builder: (FormFieldState<InputValue> field) {
-                return new Input(
-                  icon: new Icon(Icons.label),
-                  hintText: 'e.g More information about Unicorns.',
-                  labelText: 'Description',
-                  value: field.value,
-                  onChanged: field.onChanged,
-                  errorText: field.errorText,
-                  maxLines: 5,
-                );
-              },
-            ),
-          ],
+      body: new Card(
+        child: new Form(
+          key: _formKey,
+          autovalidate: _autovalidate,
+          child: new ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            children: <Widget>[
+              new FormField<InputValue>(
+                initialValue: InputValue.empty,
+                onSaved: (InputValue val) {
+                  _title = val;
+                },
+                validator: _validateTitle,
+                builder: (FormFieldState<InputValue> field) {
+                  return new Input(
+                    autofocus: true,
+                    icon: new Icon(Icons.label),
+                    hintText: 'e.g. Feed the Unicorns',
+                    labelText: 'Title',
+                    value: field.value,
+                    onChanged: field.onChanged,
+                    errorText: field.errorText,
+                  );
+                },
+              ),
+              new FormField<InputValue>(
+                initialValue: InputValue.empty,
+                onSaved: (InputValue val) {
+                  _subtitle = val;
+                },
+                validator: _validateSubtitle,
+                builder: (FormFieldState<InputValue> field) {
+                  return new Input(
+                    icon: new Icon(Icons.label),
+                    hintText: 'e.g. Unicorns need lots of food!',
+                    labelText: 'Subtitle',
+                    value: field.value,
+                    onChanged: field.onChanged,
+                    errorText: field.errorText,
+                  );
+                },
+              ),
+              new FormField<InputValue>(
+                initialValue: InputValue.empty,
+                onSaved: (InputValue val) {
+                  _description = val;
+                },
+                validator: _validateDescription,
+                builder: (FormFieldState<InputValue> field) {
+                  return new Input(
+                    icon: new Icon(Icons.label),
+                    hintText: 'e.g More information about Unicorns.',
+                    labelText: 'Description',
+                    value: field.value,
+                    onChanged: field.onChanged,
+                    errorText: field.errorText,
+                    maxLines: 5,
+                  );
+                },
+              ),
+              new Padding(
+                padding: new EdgeInsets.fromLTRB(14.0, 12.0, 14.0, 12.0),
+                child: new Row(
+                  children: [
+                    new Expanded(
+                      child: new Text('Estimated time:', textScaleFactor: 1.1),
+                    ),
+                    new Text(
+                        _estimate == 0.0 ? 'No estimate' : _estimate.toString(),
+                        textScaleFactor: 1.1),
+                  ],
+                ),
+              ),
+              new Slider(
+                value: _estimate,
+                max: 8.0,
+                divisions: 16,
+                thumbOpenAtMin: true,
+                onChanged: (value) {
+                  setState(() {
+                    _estimate = value;
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
