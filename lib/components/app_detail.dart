@@ -79,41 +79,38 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
               title: new Text(_editedToDo['title']),
               subtitle: new Text(_editedToDo['subtitle']),
             ),
-            new DefaultTextStyle(
-              style: new TextStyle(fontSize: 16.0),
-              child: new Padding(
-                padding: new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    new Text('Description:   ' + _editedToDo['description'],
-                        textAlign: TextAlign.justify),
-                    new SizedBox(
-                      height: 8.0,
-                    ),
-                    new Row(
-                      children: [
-                        new Expanded(
-                          child: new Text('Estimation:'),
-                        ),
-                        new Text(config.toDo['estimate'] != null
-                            ? config.toDo['estimate'].toString() + ' h'
-                            : 'no Estimation'),
-                      ],
-                    ),
-                    new SizedBox(
-                      height: 8.0,
-                    ),
-                    new Row(
-                      children: [
-                        new Expanded(
-                          child: new Text('Due Date:'),
-                        ),
-                        new Text('not implemented yet'),
-                      ],
-                    ),
-                  ],
-                ),
+            new Container(
+              padding: new EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  new Text('Description:   ' + _editedToDo['description'],
+                      textAlign: TextAlign.justify),
+                  new SizedBox(
+                    height: 8.0,
+                  ),
+                  new Row(
+                    children: [
+                      new Expanded(
+                        child: new Text('Estimation:'),
+                      ),
+                      new Text(config.toDo['estimate'] != null
+                          ? config.toDo['estimate'].toString() + ' h'
+                          : 'no Estimation'),
+                    ],
+                  ),
+                  new SizedBox(
+                    height: 8.0,
+                  ),
+                  new Row(
+                    children: [
+                      new Expanded(
+                        child: new Text('Due Date:'),
+                      ),
+                      new Text('not implemented yet'),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
