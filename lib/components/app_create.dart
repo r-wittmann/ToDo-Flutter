@@ -66,14 +66,14 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
       appBar: new AppBar(
         elevation: 2,
         leading: new IconButton(
-            icon: new Icon(Icons.close),
+            icon: new Icon(Icons.highlight_off, size: 30.0),
             onPressed: () {
               Navigator.pop(context);
             }),
         title: new Text('Create ToDo'),
         actions: [
           new IconButton(
-            icon: new Icon(Icons.check),
+            icon: new Icon(Icons.check_circle_outline, size: 30.0),
             onPressed: () {
               _saveToDo(context);
             },

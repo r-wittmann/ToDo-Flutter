@@ -26,7 +26,7 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
       appBar: new AppBar(
         leading: _editActive
             ? new IconButton(
-                icon: new Icon(Icons.close),
+                icon: new Icon(Icons.highlight_off, size: 30.0),
                 onPressed: () {
                   setState(() {
                     _editedToDo = new Map.from(config.toDo);
@@ -39,7 +39,7 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
 //        actions: [
 //          _editActive
 //              ? new IconButton(
-//                  icon: new Icon(Icons.check),
+//                  icon: new Icon(Icons.check_circle_outline, size: 30.0),
 //                  onPressed: () {
 //                    print('Save ToDo, implementation in body needed');
 //                  })
