@@ -96,9 +96,7 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
               config.brightness,
               config.changeTheme,
               config.changeColor,
-              config.emptyTrash,
-              config.displayDone,
-              config.toggleDisplayDone),
+              config.emptyTrash),
           appBar: new AppBar(
             elevation: 2,
             title: _getAppTitle(),
@@ -127,7 +125,8 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
               config.rightSwipe,
               config.undoRightSwipe,
               config.reorderList,
-              config.displayDone));
+              config.displayDone,
+              config.toggleDisplayDone));
     }
   }
 }

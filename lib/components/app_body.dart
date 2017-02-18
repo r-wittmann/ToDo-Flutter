@@ -14,6 +14,7 @@ class ToDoAppBody extends StatefulWidget {
   var reorderList;
 
   bool displayDone;
+  var toggleDisplayDone;
 
   ToDoAppBody(
       this.indicator,
@@ -24,7 +25,8 @@ class ToDoAppBody extends StatefulWidget {
       this.rightSwipe,
       this.undoRightSwipe,
       this.reorderList,
-      this.displayDone);
+      this.displayDone,
+      this.toggleDisplayDone);
 
   @override
   State createState() => new ToDoAppBodyState();
@@ -45,27 +47,29 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
     _listElements = [];
 
     config.toDoList.forEach((toDo) {
-      if (config.displayDone &&
-          toDo['done'] &&
+      if (toDo['done'] &&
           toDo == config.toDoList.firstWhere((a) => a['done']) &&
           config.indicator == 0) {
         _listElements.add(
-          new Row(
-            children: [
-              new Padding(
-                padding: new EdgeInsets.symmetric(horizontal: 8.0),
-                child: new Text('Already done:'),
-              ),
-              new Expanded(
-                child: new Container(
-                  height: 1.0,
-                  margin: new EdgeInsets.only(right: 8.0),
-                  decoration: new BoxDecoration(
-                    backgroundColor: Theme.of(context).dividerColor,
-                  ),
-                ),
-              ),
-            ],
+          new AnimatedCrossFade(
+            firstChild: new FlatButton(
+              child: new Text('Hide done ToDos', textScaleFactor: 0.9),
+              onPressed: () {
+                config.toggleDisplayDone();
+              },
+            ),
+            firstCurve: new Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+            secondChild: new FlatButton(
+              child: new Text('Show done ToDos', textScaleFactor: 0.9),
+              onPressed: () {
+                config.toggleDisplayDone();
+              },
+            ),
+            secondCurve: new Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+            duration: const Duration(milliseconds: 300),
+            crossFadeState: config.displayDone
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
           ),
         );
       }
