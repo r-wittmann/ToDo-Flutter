@@ -59,7 +59,7 @@ class ToDoState extends State<ToDo> {
     ThemeData _theme = Theme.of(context);
     setState(() {
       _expanded = config.expanded;
-      _boxHeight = _expanded ? 140.0 : 0.0;
+      _boxHeight = _expanded ? 148.0 : 0.0;
     });
     return new Stack(
       key: new ObjectKey(config.toDo),
@@ -148,6 +148,17 @@ class ToDoState extends State<ToDo> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        new Row(
+                          children: [
+                            new Expanded(
+                              child: new Text('Category:'),
+                            ),
+                            new Text(config.toDo['category']),
+                          ],
+                        ),
+                        new SizedBox(
+                          height: 8.0,
                         ),
                         new Row(
                           children: [

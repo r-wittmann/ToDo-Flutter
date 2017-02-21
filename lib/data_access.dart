@@ -30,6 +30,7 @@ class ToDoDataAccess {
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description I',
             'estimate': 0.5,
+            'category': 'General',
             'done': false,
           },
           {
@@ -38,6 +39,7 @@ class ToDoDataAccess {
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description II',
             'estimate': 0.5,
+            'category': 'General',
             'done': false,
           },
           {
@@ -46,11 +48,13 @@ class ToDoDataAccess {
             'subtitle': 'Tap here for more information',
             'description': 'ToDo Description III',
             'estimate': null,
+            'category': 'General',
             'done': false,
           }
         ],
         'archive': [],
-        'trash': []
+        'trash': [],
+        'categories': ['General']
       }));
     }
   }

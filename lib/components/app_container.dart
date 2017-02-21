@@ -17,6 +17,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   int _archiveIndex;
   var _deleteObject;
   int _deleteIndex;
+  List _toDoCategories = [];
 
   bool _useDarkTheme = true;
   Brightness _brightness = Brightness.dark;
@@ -53,11 +54,13 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     _toDoList = toDoObjects['toDos'];
     _archiveList = toDoObjects['archive'];
     _trashList = toDoObjects['trash'];
+    _toDoCategories = toDoObjects['categories'];
 
     setState(() {
       _toDoList;
       _archiveList;
       _trashList;
+      _toDoCategories;
     });
   }
 
@@ -250,8 +253,12 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
       else
         return -1;
     });
-    _dataAccess.saveToDos(
-        {'toDos': _toDoList, 'archive': _archiveList, 'trash': _trashList});
+    _dataAccess.saveToDos({
+      'toDos': _toDoList,
+      'archive': _archiveList,
+      'trash': _trashList,
+      'categories': _toDoCategories
+    });
   }
 
   List<Map<int, Color>> _darkColorList = [
@@ -339,6 +346,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _createToDo,
             _emptyTrash,
             _reorderList,
+            _toDoCategories,
             _color,
             _brightness,
             _changeTheme,
@@ -357,6 +365,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             null,
             _emptyTrash,
             _reorderList,
+            null,
             _color,
             _brightness,
             _changeTheme,
@@ -375,6 +384,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             null,
             _emptyTrash,
             _reorderList,
+            null,
             _color,
             _brightness,
             _changeTheme,

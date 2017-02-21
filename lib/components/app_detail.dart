@@ -92,6 +92,17 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
                   new Row(
                     children: [
                       new Expanded(
+                        child: new Text('Category:'),
+                      ),
+                      new Text(config.toDo['category']),
+                    ],
+                  ),
+                  new SizedBox(
+                    height: 8.0,
+                  ),
+                  new Row(
+                    children: [
+                      new Expanded(
                         child: new Text('Estimation:'),
                       ),
                       new Text(config.toDo['estimate'] != null

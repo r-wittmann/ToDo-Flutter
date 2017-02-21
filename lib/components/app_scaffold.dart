@@ -20,6 +20,7 @@ class ToDoAppScaffold extends StatefulWidget {
   var emptyTrash;
 
   var reorderList;
+  List toDoCategories;
 
   Color color;
   Brightness brightness;
@@ -41,6 +42,7 @@ class ToDoAppScaffold extends StatefulWidget {
       this.createToDo,
       this.emptyTrash,
       this.reorderList,
+      this.toDoCategories,
       this.color,
       this.brightness,
       this.changeTheme,
@@ -147,7 +149,8 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (BuildContext context) {
-                      return new ToDoAppCreate(config.createToDo);
+                      return new ToDoAppCreate(
+                          config.createToDo, config.toDoCategories);
                     }),
                   );
                 },

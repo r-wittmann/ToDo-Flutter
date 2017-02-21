@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class ToDoAppCreate extends StatefulWidget {
   var createToDo;
+  List toDoCategories;
 
-  ToDoAppCreate(this.createToDo);
+  ToDoAppCreate(this.createToDo, this.toDoCategories);
 
   @override
   State createState() => new ToDoAppCreateState();
@@ -15,6 +16,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
   InputValue _title;
   InputValue _subtitle;
   InputValue _description;
+  String _category = 'General';
   double _estimate = 0.0;
 
   void showInSnackBar(String value) {
@@ -37,6 +39,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
         'title': _title.text,
         'subtitle': _subtitle.text,
         'description': _description.text,
+        'category': _category,
         'estimate': _estimate == 0.0 ? null : _estimate,
         'done': false
       });
@@ -139,6 +142,48 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
                     maxLines: 5,
                   );
                 },
+              ),
+              new Padding(
+                padding: new EdgeInsets.fromLTRB(14.0, 12.0, 14.0, 12.0),
+                child: new Row(
+                  children: [
+                    new Expanded(
+                      child:
+                          new Text('Assign to Category:', textScaleFactor: 1.1),
+                    ),
+                    new PopupMenuButton(
+                        child: new Row(
+                          children: [
+                            new Text(_category, textScaleFactor: 1.1),
+                            new Icon(Icons.arrow_drop_down),
+                          ],
+                        ),
+                        onSelected: (selected) {
+                          setState(() {
+                            _category = selected;
+                          });
+                        },
+                        itemBuilder: (BuildContext context) {
+                          List popupList = [];
+                          config.toDoCategories.forEach((category) {
+                            popupList.add(
+                              new CheckedPopupMenuItem(
+                                value: category,
+                                checked: _category == category,
+                                child: new Text(category, textScaleFactor: 0.9),
+                              ),
+                            );
+                          });
+                          popupList.add(
+                            new FlatButton(
+                              child: new Text('Add Category'),
+                              onPressed: () {},
+                            ),
+                          );
+                          return popupList;
+                        }),
+                  ],
+                ),
               ),
               new Padding(
                 padding: new EdgeInsets.fromLTRB(14.0, 12.0, 14.0, 12.0),
