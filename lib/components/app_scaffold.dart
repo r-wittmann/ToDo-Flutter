@@ -90,43 +90,70 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
       return new ToDoSplash();
     } else {
       return new Scaffold(
-          drawer: new ToDoAppDrawer(
-              config.indicator,
-              config.color,
-              config.brightness,
-              config.changeTheme,
-              config.changeColor,
-              config.emptyTrash),
-          appBar: new AppBar(
-            elevation: 2,
-            title: _getAppTitle(),
-            actions: [
-              config.indicator == 0
-                  ? new IconButton(
-                      icon: new Icon(Icons.add_circle_outline, size: 30.0),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) {
-                            return new ToDoAppCreate(config.createToDo);
-                          }),
-                        );
-                      })
-                  : new Container(),
-            ],
-          ),
-          body: new ToDoAppBody(
-              config.indicator,
-              config.toDoList,
-              config.toggleDone,
-              config.leftSwipe,
-              config.undoLeftSwipe,
-              config.rightSwipe,
-              config.undoRightSwipe,
-              config.reorderList,
-              config.displayDone,
-              config.toggleDisplayDone));
+        drawer: new ToDoAppDrawer(
+            config.indicator,
+            config.color,
+            config.brightness,
+            config.changeTheme,
+            config.changeColor,
+            config.emptyTrash),
+        appBar: new AppBar(
+          elevation: 2,
+          title: _getAppTitle(),
+//          actions: [
+//            new PopupMenuButton(
+//                onSelected: (selected) {},
+//                itemBuilder: (BuildContext context) => [
+//                  new Padding(
+//                    padding: new EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+//                    child: new Text('Filter Categories:'),
+//                  ),
+//                  new CheckedPopupMenuItem(
+//                    value: 0,
+//                    checked: true,
+//                    child: new Text('Category I', textScaleFactor: 0.9)
+//                  ),
+//                  new CheckedPopupMenuItem(
+//                      value: 0,
+//                      checked: false,
+//                      child: new Text('Category II', textScaleFactor: 0.9)
+//                  ),
+//                  new CheckedPopupMenuItem(
+//                      value: 0,
+//                      checked: true,
+//                      child: new Text('Category III', textScaleFactor: 0.9)
+//                  ),
+//                ],
+//            ),
+//          ],
+        ),
+        body: new ToDoAppBody(
+            config.indicator,
+            config.toDoList,
+            config.toggleDone,
+            config.leftSwipe,
+            config.undoLeftSwipe,
+            config.rightSwipe,
+            config.undoRightSwipe,
+            config.reorderList,
+            config.displayDone,
+            config.toggleDisplayDone),
+        floatingActionButton: config.indicator == 0
+            ? new FloatingActionButton(
+                mini: true,
+                backgroundColor: config.color,
+                child: new Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (BuildContext context) {
+                      return new ToDoAppCreate(config.createToDo);
+                    }),
+                  );
+                },
+              )
+            : new Container(),
+      );
     }
   }
 }
