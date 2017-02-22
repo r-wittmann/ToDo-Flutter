@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class ToDoAppCreate extends StatefulWidget {
   var createToDo;
   List toDoCategories;
+  var saveCategories;
 
-  ToDoAppCreate(this.createToDo, this.toDoCategories);
+  ToDoAppCreate(this.createToDo, this.toDoCategories, this.saveCategories);
 
   @override
   State createState() => new ToDoAppCreateState();
@@ -16,6 +17,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
   InputValue _title;
   InputValue _subtitle;
   InputValue _description;
+  InputValue _newCategory;
   String _category = 'General';
   double _estimate = 0.0;
 
@@ -26,6 +28,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
 
   bool _autovalidate = false;
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  GlobalKey<FormState> _categoryFormKey = new GlobalKey<FormState>();
 
   void _saveToDo(context) {
     FormState form = _formKey.currentState;
@@ -47,6 +50,18 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
     }
   }
 
+  void _saveNewCategory() {
+    FormState form = _categoryFormKey.currentState;
+    if (form.validate()) {
+      form.save();
+      config.toDoCategories.add(_newCategory.text);
+      _category = _newCategory.text;
+      config.saveCategories(config.toDoCategories);
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+  }
+
   String _validateTitle(InputValue value) {
     if (value.text.isEmpty) return 'Title is required.';
     return null;
@@ -59,6 +74,11 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
 
   String _validateDescription(InputValue value) {
     if (value.text.isEmpty) return 'Description is required.';
+    return null;
+  }
+
+  String _validateNewCategory(InputValue value) {
+    if (value.text.isEmpty) return 'You can`t leave this empty.';
     return null;
   }
 
@@ -177,7 +197,47 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
                           popupList.add(
                             new FlatButton(
                               child: new Text('Add Category'),
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  child: new AlertDialog(
+                                    content: new Form(
+                                      key: _categoryFormKey,
+                                      child: new FormField<InputValue>(
+                                        initialValue: InputValue.empty,
+                                        onSaved: (InputValue val) {
+                                          _newCategory = val;
+                                        },
+                                        validator: _validateNewCategory,
+                                        builder:
+                                            (FormFieldState<InputValue> field) {
+                                          return new Input(
+                                            labelText: 'New Category',
+                                            autofocus: true,
+                                            value: field.value,
+                                            onChanged: field.onChanged,
+                                            errorText: field.errorText,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    actions: [
+                                      new FlatButton(
+                                        child: new Text('Dismiss'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      new FlatButton(
+                                        child: new Text('Save'),
+                                        onPressed: () {
+                                          _saveNewCategory();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           );
                           return popupList;

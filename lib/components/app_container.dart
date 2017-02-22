@@ -64,6 +64,13 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
     });
   }
 
+  void _saveCategories(categories) {
+    setState(() {
+      _toDoCategories = categories;
+    });
+    _saveToDos();
+  }
+
   void _createToDo(Map<String, dynamic> toDo) {
     setState(() {
       _toDoList.add(toDo);
@@ -347,6 +354,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _emptyTrash,
             _reorderList,
             _toDoCategories,
+            _saveCategories,
             _color,
             _brightness,
             _changeTheme,
@@ -366,6 +374,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             _emptyTrash,
             _reorderList,
             null,
+            null,
             _color,
             _brightness,
             _changeTheme,
@@ -384,6 +393,7 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
             null,
             _emptyTrash,
             _reorderList,
+            null,
             null,
             _color,
             _brightness,
