@@ -29,6 +29,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
   bool _autovalidate = false;
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   GlobalKey<FormState> _categoryFormKey = new GlobalKey<FormState>();
+  GlobalKey _buttonKey = new GlobalKey();
 
   void _saveToDo(context) {
     FormState form = _formKey.currentState;
@@ -60,6 +61,14 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
       Navigator.pop(context);
       Navigator.pop(context);
     }
+  }
+
+  void _deleteCategory(category) {
+    config.toDoCategories.remove(category);
+    config.saveCategories(config.toDoCategories);
+    Navigator.pop(context);
+    Navigator.pop(context);
+    _buttonKey.currentState.showButtonMenu();
   }
 
   String _validateTitle(InputValue value) {
@@ -172,6 +181,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
                           new Text('Assign to Category:', textScaleFactor: 1.1),
                     ),
                     new PopupMenuButton(
+                        key: _buttonKey,
                         child: new Row(
                           children: [
                             new Text(_category, textScaleFactor: 1.1),
@@ -185,15 +195,59 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
                         },
                         itemBuilder: (BuildContext context) {
                           List popupList = [];
-                          config.toDoCategories.forEach((category) {
-                            popupList.add(
-                              new CheckedPopupMenuItem(
-                                value: category,
-                                checked: _category == category,
-                                child: new Text(category, textScaleFactor: 0.9),
-                              ),
-                            );
-                          });
+                          config.toDoCategories.forEach(
+                            (category) {
+                              popupList.add(
+                                new CheckedPopupMenuItem(
+                                  value: category,
+                                  checked: _category == category,
+                                  child: new Row(
+                                    children: [
+                                      new Expanded(
+                                        child: new Text(category,
+                                            textScaleFactor: 0.9),
+                                      ),
+                                      _category != category
+                                          ? new IconButton(
+                                              size: 16.0,
+                                              icon: new Icon(Icons.close),
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  child: new AlertDialog(
+                                                    title: new Text(
+                                                        'Are you sure to delete $category?'),
+                                                    content: new Text(
+                                                        'Deleting a category results in the deletion of all ToDos assosiated with it.'),
+                                                    actions: [
+                                                      new FlatButton(
+                                                        child:
+                                                            new Text('Abort'),
+                                                        onPressed: () {
+                                                          Navigator
+                                                              .pop(context);
+                                                        },
+                                                      ),
+                                                      new FlatButton(
+                                                        child:
+                                                            new Text('Delete'),
+                                                        onPressed: () {
+                                                          _deleteCategory(
+                                                              category);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            )
+                                          : new Container(),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                           popupList.add(
                             new FlatButton(
                               child: new Text('Add Category'),

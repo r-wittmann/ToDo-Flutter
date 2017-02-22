@@ -65,6 +65,9 @@ class ToDoAppContainerState extends State<ToDoAppContainer> {
   }
 
   void _saveCategories(categories) {
+    _toDoList.removeWhere((todo) => !categories.contains(todo['category']));
+    _archiveList.removeWhere((todo) => !categories.contains(todo['category']));
+    _trashList.removeWhere((todo) => !categories.contains(todo['category']));
     setState(() {
       _toDoCategories = categories;
     });
