@@ -39,7 +39,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
     } else {
       form.save();
       showInSnackBar('ToDo ${_title.text} created');
-      config.createToDo({
+      widget.createToDo({
         'title': _title.text,
         'subtitle': _subtitle.text,
         'description': _description.text,
@@ -55,17 +55,17 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
     FormState form = _categoryFormKey.currentState;
     if (form.validate()) {
       form.save();
-      config.toDoCategories.add(_newCategory.text);
+      widget.toDoCategories.add(_newCategory.text);
       _category = _newCategory.text;
-      config.saveCategories(config.toDoCategories);
+      widget.saveCategories(widget.toDoCategories);
       Navigator.pop(context);
       Navigator.pop(context);
     }
   }
 
   void _deleteCategory(category) {
-    config.toDoCategories.remove(category);
-    config.saveCategories(config.toDoCategories);
+    widget.toDoCategories.remove(category);
+    widget.saveCategories(widget.toDoCategories);
     Navigator.pop(context);
     Navigator.pop(context);
     _buttonKey.currentState.showButtonMenu();
@@ -195,7 +195,7 @@ class ToDoAppCreateState extends State<ToDoAppCreate> {
                         },
                         itemBuilder: (BuildContext context) {
                           List popupList = [];
-                          config.toDoCategories.forEach(
+                          widget.toDoCategories.forEach(
                             (category) {
                               popupList.add(
                                 new CheckedPopupMenuItem(
