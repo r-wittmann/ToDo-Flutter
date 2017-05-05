@@ -46,45 +46,45 @@ class ToDoAppBodyState extends State<ToDoAppBody> {
   Widget build(BuildContext context) {
     _listElements = [];
 
-    config.toDoList.forEach((toDo) {
+    widget.toDoList.forEach((toDo) {
       if (toDo['done'] &&
-          toDo == config.toDoList.firstWhere((a) => a['done']) &&
-          config.indicator == 0) {
+          toDo == widget.toDoList.firstWhere((a) => a['done']) &&
+          widget.indicator == 0) {
         _listElements.add(
           new AnimatedCrossFade(
             firstChild: new FlatButton(
               child: new Text('Hide done ToDos', textScaleFactor: 0.9),
               onPressed: () {
-                config.toggleDisplayDone();
+                widget.toggleDisplayDone();
               },
             ),
             firstCurve: new Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
             secondChild: new FlatButton(
               child: new Text('Show done ToDos', textScaleFactor: 0.9),
               onPressed: () {
-                config.toggleDisplayDone();
+                widget.toggleDisplayDone();
               },
             ),
             secondCurve: new Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
             duration: const Duration(milliseconds: 300),
-            crossFadeState: config.displayDone
+            crossFadeState: widget.displayDone
                 ? CrossFadeState.showFirst
                 : CrossFadeState.showSecond,
           ),
         );
       }
-      if (!toDo['done'] || config.displayDone) {
+      if (!toDo['done'] || widget.displayDone) {
         _listElements.add(new ToDo(
-            config.indicator,
+            widget.indicator,
             toDo,
             _expandedElement == toDo,
             _toggleExpand,
-            config.toggleDone,
-            config.leftSwipe,
-            config.undoLeftSwipe,
-            config.rightSwipe,
-            config.undoRightSwipe,
-            config.reorderList));
+            widget.toggleDone,
+            widget.leftSwipe,
+            widget.undoLeftSwipe,
+            widget.rightSwipe,
+            widget.undoRightSwipe,
+            widget.reorderList));
       }
     });
 

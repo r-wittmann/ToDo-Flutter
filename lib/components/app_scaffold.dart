@@ -73,7 +73,7 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
 
   Widget _getAppTitle() {
     String title;
-    switch (config.indicator) {
+    switch (widget.indicator) {
       case 0:
         title = 'ToDo List';
         break;
@@ -95,12 +95,12 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
     } else {
       return new Scaffold(
         drawer: new ToDoAppDrawer(
-            config.indicator,
-            config.color,
-            config.brightness,
-            config.changeTheme,
-            config.changeColor,
-            config.emptyTrash),
+            widget.indicator,
+            widget.color,
+            widget.brightness,
+            widget.changeTheme,
+            widget.changeColor,
+            widget.emptyTrash),
         appBar: new AppBar(
           elevation: 2,
           title: _getAppTitle(),
@@ -132,27 +132,27 @@ class ToDoAppScaffoldState extends State<ToDoAppScaffold> {
 //          ],
         ),
         body: new ToDoAppBody(
-            config.indicator,
-            config.toDoList,
-            config.toggleDone,
-            config.leftSwipe,
-            config.undoLeftSwipe,
-            config.rightSwipe,
-            config.undoRightSwipe,
-            config.reorderList,
-            config.displayDone,
-            config.toggleDisplayDone),
-        floatingActionButton: config.indicator == 0
+            widget.indicator,
+            widget.toDoList,
+            widget.toggleDone,
+            widget.leftSwipe,
+            widget.undoLeftSwipe,
+            widget.rightSwipe,
+            widget.undoRightSwipe,
+            widget.reorderList,
+            widget.displayDone,
+            widget.toggleDisplayDone),
+        floatingActionButton: widget.indicator == 0
             ? new FloatingActionButton(
                 mini: true,
-                backgroundColor: config.color,
+                backgroundColor: widget.color,
                 child: new Icon(Icons.add),
                 onPressed: () {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (BuildContext context) {
-                      return new ToDoAppCreate(config.createToDo,
-                          config.toDoCategories, config.saveCategories);
+                      return new ToDoAppCreate(widget.createToDo,
+                          widget.toDoCategories, widget.saveCategories);
                     }),
                   );
                 },

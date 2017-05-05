@@ -37,16 +37,16 @@ class ToDoState extends State<ToDo> {
   double _boxHeight;
 
   void _onDragStart() {
-    config.toggleExpand(config.toDo, false);
+    widget.toggleExpand(widget.toDo, false);
     Scaffold.of(context).showBottomSheet((context) {
       return new ToDoAppBottomSheet(
           context,
-          config.indicator,
-          config.toDo,
-          config.leftSwipe,
-          config.undoLeftSwipe,
-          config.rightSwipe,
-          config.undoRightSwipe);
+          widget.indicator,
+          widget.toDo,
+          widget.leftSwipe,
+          widget.undoLeftSwipe,
+          widget.rightSwipe,
+          widget.undoRightSwipe);
     });
   }
 
@@ -58,14 +58,14 @@ class ToDoState extends State<ToDo> {
   Widget build(BuildContext context) {
     ThemeData _theme = Theme.of(context);
     setState(() {
-      _expanded = config.expanded;
+      _expanded = widget.expanded;
       _boxHeight = _expanded ? 148.0 : 0.0;
     });
     return new Stack(
-      key: new ObjectKey(config.toDo),
+      key: new ObjectKey(widget.toDo),
       children: [
         new LongPressDraggable(
-          data: config.toDo,
+          data: widget.toDo,
           feedback: new SizedBox(
             width: MediaQuery.of(context).size.width,
             child: new Card(
@@ -74,17 +74,17 @@ class ToDoState extends State<ToDo> {
                 dense: true,
                 leading: new IconButton(
                   icon: new Icon(
-                    config.toDo['done']
+                    widget.toDo['done']
                         ? Icons.check_box
                         : Icons.check_box_outline_blank,
-                    color: config.toDo['done'] ? Colors.green[600] : null,
+                    color: widget.toDo['done'] ? Colors.green[600] : null,
                   ),
                   onPressed: () {},
                 ),
-                title: new Text(config.toDo['title']),
-                subtitle: new Text(config.toDo['subtitle']),
-                trailing: config.toDo['estimate'] is double
-                    ? new Text(config.toDo['estimate'].toString() + ' h')
+                title: new Text(widget.toDo['title']),
+                subtitle: new Text(widget.toDo['subtitle']),
+                trailing: widget.toDo['estimate'] is double
+                    ? new Text(widget.toDo['estimate'].toString() + ' h')
                     : null,
               ),
             ),
@@ -105,25 +105,25 @@ class ToDoState extends State<ToDo> {
                   dense: true,
                   leading: new IconButton(
                     icon: new Icon(
-                      config.toDo['done']
+                      widget.toDo['done']
                           ? Icons.check_box
                           : Icons.check_box_outline_blank,
-                      color: config.toDo['done'] ? Colors.green[600] : null,
+                      color: widget.toDo['done'] ? Colors.green[600] : null,
                     ),
-                    onPressed: config.toggleToDo is Function
-                        ? () => config.toggleToDo(config.toDo)
+                    onPressed: widget.toggleToDo is Function
+                        ? () => widget.toggleToDo(widget.toDo)
                         : null,
                   ),
-                  title: new Text(config.toDo['title']),
-                  subtitle: new Text(config.toDo['subtitle']),
+                  title: new Text(widget.toDo['title']),
+                  subtitle: new Text(widget.toDo['subtitle']),
                   trailing: _expanded
                       ? new Icon(Icons.keyboard_arrow_up)
-                      : config.toDo['estimate'] != null
-                          ? new Text(config.toDo['estimate'].toString() + ' h',
+                      : widget.toDo['estimate'] != null
+                          ? new Text(widget.toDo['estimate'].toString() + ' h',
                               textScaleFactor: 0.9)
                           : new Container(),
                   onTap: () {
-                    config.toggleExpand(config.toDo, !_expanded);
+                    widget.toggleExpand(widget.toDo, !_expanded);
                   },
                 ),
                 new AnimatedContainer(
@@ -143,7 +143,7 @@ class ToDoState extends State<ToDo> {
                         new Container(
                           height: 36.0,
                           child: new Text(
-                            'Discription:   ' + config.toDo['description'],
+                            'Discription:   ' + widget.toDo['description'],
                             textAlign: TextAlign.justify,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -154,7 +154,7 @@ class ToDoState extends State<ToDo> {
                             new Expanded(
                               child: new Text('Category:'),
                             ),
-                            new Text(config.toDo['category']),
+                            new Text(widget.toDo['category']),
                           ],
                         ),
                         new SizedBox(
@@ -165,8 +165,8 @@ class ToDoState extends State<ToDo> {
                             new Expanded(
                               child: new Text('Estimation:'),
                             ),
-                            new Text(config.toDo['estimate'] != null
-                                ? config.toDo['estimate'].toString() + ' h'
+                            new Text(widget.toDo['estimate'] != null
+                                ? widget.toDo['estimate'].toString() + ' h'
                                 : 'no Estimation'),
                           ],
                         ),
@@ -192,7 +192,7 @@ class ToDoState extends State<ToDo> {
                               new MaterialPageRoute(
                                   builder: (BuildContext context) {
                                 return new ToDoAppDetail(
-                                    config.toDo, config.toggleToDo);
+                                    widget.toDo, widget.toggleToDo);
                               }),
                             );
                           },
@@ -213,7 +213,7 @@ class ToDoState extends State<ToDo> {
         ),
         new DragTarget(
           onAccept: (data) {
-            config.reorderList(data, config.toDo);
+            widget.reorderList(data, widget.toDo);
             Navigator.pop(context);
           },
           builder: (context, a, b) {

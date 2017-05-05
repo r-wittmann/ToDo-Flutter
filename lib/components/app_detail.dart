@@ -17,7 +17,7 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
   @override
   void initState() {
     super.initState();
-    _editedToDo = new Map.from(config.toDo);
+    _editedToDo = new Map.from(widget.toDo);
   }
 
   @override
@@ -29,7 +29,7 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
                 icon: new Icon(Icons.highlight_off, size: 30.0),
                 onPressed: () {
                   setState(() {
-                    _editedToDo = new Map.from(config.toDo);
+                    _editedToDo = new Map.from(widget.toDo);
                     _editActive = false;
                   });
                 },
@@ -67,7 +67,7 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
                       : Icons.check_box_outline_blank,
                   color: _editedToDo['done'] ? Colors.green[600] : null,
                 ),
-                onPressed: config.toggleToDo is Function
+                onPressed: widget.toggleToDo is Function
                     ? () {
                         setState(() {
                           _editActive = true;
@@ -94,7 +94,7 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
                       new Expanded(
                         child: new Text('Category:'),
                       ),
-                      new Text(config.toDo['category']),
+                      new Text(widget.toDo['category']),
                     ],
                   ),
                   new SizedBox(
@@ -105,8 +105,8 @@ class ToDoAppDetailState extends State<ToDoAppDetail> {
                       new Expanded(
                         child: new Text('Estimation:'),
                       ),
-                      new Text(config.toDo['estimate'] != null
-                          ? config.toDo['estimate'].toString() + ' h'
+                      new Text(widget.toDo['estimate'] != null
+                          ? widget.toDo['estimate'].toString() + ' h'
                           : 'no Estimation'),
                     ],
                   ),

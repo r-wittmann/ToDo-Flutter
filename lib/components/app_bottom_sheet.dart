@@ -26,7 +26,7 @@ class ToDoAppBottomSheetState extends State<ToDoAppBottomSheet> {
   @override
   void initState() {
     super.initState();
-    switch (config.indicator) {
+    switch (widget.indicator) {
       case 0:
         _leftText = 'ToDo archived';
         _rightText = 'ToDo deleted';
@@ -46,19 +46,19 @@ class ToDoAppBottomSheetState extends State<ToDoAppBottomSheet> {
         _rightIcon = new Icon(Icons.delete_forever, size: 36.0);
         break;
     }
-    _theme = Theme.of(config.context);
+    _theme = Theme.of(widget.context);
   }
 
   void _leftSwipe() {
-    config.leftSwipe(config.toDo, false);
-    Scaffold.of(config.context).showSnackBar(
+    widget.leftSwipe(widget.toDo, false);
+    Scaffold.of(widget.context).showSnackBar(
           new SnackBar(
             duration: new Duration(seconds: 2),
             content: new Text(_leftText),
             action: new SnackBarAction(
               label: 'UNDO',
               onPressed: () {
-                config.undoLeftSwipe(config.toDo, true);
+                widget.undoLeftSwipe(widget.toDo, true);
               },
             ),
           ),
@@ -66,15 +66,15 @@ class ToDoAppBottomSheetState extends State<ToDoAppBottomSheet> {
   }
 
   void _rightSwipe() {
-    config.rightSwipe(config.toDo, false);
-    Scaffold.of(config.context).showSnackBar(
+    widget.rightSwipe(widget.toDo, false);
+    Scaffold.of(widget.context).showSnackBar(
           new SnackBar(
             duration: new Duration(seconds: 2),
             content: new Text(_rightText),
             action: new SnackBarAction(
               label: 'UNDO',
               onPressed: () {
-                config.undoRightSwipe(config.toDo, true);
+                widget.undoRightSwipe(widget.toDo, true);
               },
             ),
           ),
